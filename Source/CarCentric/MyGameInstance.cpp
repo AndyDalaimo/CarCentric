@@ -2,6 +2,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TimerManager.h"
+#include "Misc/Timecode.h"
 #include "MyGameInstance.h"
 
 
@@ -12,7 +13,7 @@ UMyGameInstance::UMyGameInstance(const FObjectInitializer& ObjectInitializer)
 
 }
 
-
+// Initialize Timer
 void UMyGameInstance::Init()
 {
 	TimerDelegate.BindUFunction(this, "TimerFunction");
@@ -22,5 +23,10 @@ void UMyGameInstance::Init()
 // Function Called from timer 
 void UMyGameInstance::TimerFunction()
 {
+	seconds++;
+	float elapsed = GetWorld()->GetTimerManager().GetTimerElapsed(GameTimer);
+	FTimecode timer = FTimecode(0, 0, seconds, 0, true);
 	UE_LOG(LogTemp, Warning, TEXT("Timer function is called"));
+	FString timeString = timer.ToString();
+	UE_LOG(LogTemp, Warning, TEXT("Timer elapsed %s"), *timeString);
 }
