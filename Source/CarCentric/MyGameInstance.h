@@ -17,6 +17,9 @@ class CARCENTRIC_API UMyGameInstance : public UGameInstance
 
 public:
 	UMyGameInstance(const FObjectInitializer& ObjectInitializer);
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 totalTime = 10;
 
 	// Check if References are valid
 	virtual void Init();

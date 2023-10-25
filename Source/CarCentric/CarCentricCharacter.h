@@ -37,6 +37,10 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	/** Timer Test Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* TimerAction;
+
 public:
 	ACarCentricCharacter();
 	
@@ -48,6 +52,10 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called when timer ends */
+	void TimerEnd(const FInputActionValue& Value);
+
 			
 
 protected:
@@ -62,5 +70,8 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = TimerEvent)
+	void EndTimerEvent();
 };
 

@@ -24,9 +24,21 @@ void UMyGameInstance::Init()
 void UMyGameInstance::TimerFunction()
 {
 	seconds++;
+	totalTime--;
+
 	float elapsed = GetWorld()->GetTimerManager().GetTimerElapsed(GameTimer);
 	FTimecode timer = FTimecode(0, 0, seconds, 0, true);
 	UE_LOG(LogTemp, Warning, TEXT("Timer function is called"));
 	FString timeString = timer.ToString();
 	UE_LOG(LogTemp, Warning, TEXT("Timer elapsed %s"), *timeString);
+	UE_LOG(LogTemp, Warning, TEXT("Time Left: %d"), totalTime);
+	if (totalTime <= 0)
+	{
+		GetTimerManager().ClearTimer(GameTimer);
+	}
+	if (!GameTimer.IsValid())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Timer Cleared"));
+
+	}
 }
