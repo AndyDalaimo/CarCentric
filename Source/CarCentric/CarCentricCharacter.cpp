@@ -84,7 +84,7 @@ void ACarCentricCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 		//Looking
 		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACarCentricCharacter::Look);
 
-		// Timer
+		// Timer -- DEBUG: Only used for TESTING. Will end game when timer is at zero and playe presses Timer Action
 		EnhancedInputComponent->BindAction(TimerAction, ETriggerEvent::Started, this, &ACarCentricCharacter::TimerEnd);
 
 	}
