@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "CarCentricCharacter.h"
 #include "Blueprint/UserWidget.h"
 #include "MyGameInstance.generated.h"
 
@@ -19,8 +20,8 @@ class CARCENTRIC_API UMyGameInstance : public UGameInstance
 public:
 
 	UMyGameInstance(const FObjectInitializer& ObjectInitializer);
+	~UMyGameInstance() override;
 	
-
 	// Check if References are valid
 	virtual void Init();
 
@@ -30,10 +31,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ExitHUDUIWidget();
 
+	UFUNCTION(BlueprintNativeEvent)
+	void RemoveGameTimer();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 totalTime = 10;
 
 private:
+
 
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;
@@ -44,5 +49,7 @@ private:
 	UFUNCTION()
 	void TimerFunction();
 
+	// HUD with Game Timer
 	TSubclassOf<UUserWidget> HUDUIWidgetClass;
+
 };

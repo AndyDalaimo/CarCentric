@@ -26,16 +26,20 @@ UMyGameInstance::UMyGameInstance(const FObjectInitializer& ObjectInitializer)
 	}
 }
 
+UMyGameInstance::~UMyGameInstance()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Game Instance Destroyed"));
+}
+
 // Initialize Timer
 void UMyGameInstance::Init()
 {
-	// UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
 	GetWorld()->GetTimerManager().SetTimer(GameTimer, TimerDelegate, timerRate, true);
 	if (HUDUIWidgetClass) ShowHUDUIWidget();
 
-	// ShowHUDUIWidget();
 }
 
 // Function Called from timer 
@@ -56,19 +60,43 @@ void UMyGameInstance::TimerFunction()
 	if (!GameTimer.IsValid())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Timer Cleared"));
-
+		// Game over. Pause timer and remove input from player
+		ExitHUDUIWidget();
 	}
 }
 
-
+// Add Timer to Player screen. 
 void UMyGameInstance::ShowHUDUIWidget()
 {
 	UUserWidget* HUDUI = CreateWidget<UUserWidget>(this, *HUDUIWidgetClass);
-	HUDUI->AddToViewport(999999);
+	HUDUI->AddToViewport();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, HUDUI ? HUDUI->GetName() : "Not valid");
+	
 }
 
+
+// Game Over. Player Only has mouse input and timer has run out.
 void UMyGameInstance::ExitHUDUIWidget()
 {
+	// Call BP Event and Remove Game Timer UI
+	RemoveGameTimer();
+
+	// Reference to Player Controller
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+
+	// Set Up Input Parameters
+	FInputModeUIOnly InputModeData;
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+
+	// Set Input Mode
+	PlayerController->SetInputMode(InputModeData);
+	PlayerController->bShowMouseCursor = true;
+}
+
+// TODO -- > Remove UI from the viewport
+// Remove Game Timer UI from Player Screen
+void UMyGameInstance::RemoveGameTimer_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Remove Game Timer");
 
 }
