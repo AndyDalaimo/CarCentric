@@ -25,17 +25,25 @@ public:
 	// Check if References are valid
 	virtual void Init();
 
+	// Create Widget and Show Game Timer
 	UFUNCTION(BlueprintCallable)
 	void ShowHUDUIWidget();
 	
+	// Remove All widgets and remove move input from player
 	UFUNCTION(BlueprintCallable)
 	void ExitHUDUIWidget();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void RemoveGameTimer();
+	// Create Widget and Show Game Over Screen
+	UFUNCTION(BlueprintCallable)
+	void ShowGameOverUIWidget();
 
+	// Restart Game
+	UFUNCTION(BlueprintCallable)
+	void RestartGame();
+
+	// In Game Timer shown on HUD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	int32 totalTime = 10;
+	int32 totalTime;
 
 private:
 
@@ -51,5 +59,8 @@ private:
 
 	// HUD with Game Timer
 	TSubclassOf<UUserWidget> HUDUIWidgetClass;
+
+	// Game Over UI
+	TSubclassOf<UUserWidget> GameOverWidgetClass;
 
 };

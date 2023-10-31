@@ -85,20 +85,10 @@ void ACarCentricCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACarCentricCharacter::Look);
 
 		// Timer -- DEBUG: Only used for TESTING. Will end game when timer is at zero and playe presses Timer Action
-		EnhancedInputComponent->BindAction(TimerAction, ETriggerEvent::Started, this, &ACarCentricCharacter::TimerEnd);
+		// EnhancedInputComponent->BindAction(TimerAction, ETriggerEvent::Started, this, &ACarCentricCharacter::TimerEnd);
 
 	}
 
-}
-
-
-// Timer End Event -- TESTING: CALLED FOR DEBUG PURPOSES
-void ACarCentricCharacter::TimerEnd(const FInputActionValue& Value)
-{
-	UE_LOG(LogTemp, Warning, TEXT("TIMER EVENT CALLED"));
-
-	// Can only trigger event when Game timer (In GameInstance) runs out
-	EndTimerEvent();
 }
 
 

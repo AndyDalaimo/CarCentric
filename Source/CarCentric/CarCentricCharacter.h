@@ -52,11 +52,7 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-
-	/** Called when timer ends */
-	void TimerEnd(const FInputActionValue& Value);
-
-			
+		
 
 protected:
 	// APawn interface
@@ -70,8 +66,6 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-	
-	UFUNCTION(BlueprintImplementableEvent, Category = TimerEvent)
-	void EndTimerEvent();
+
 };
 
