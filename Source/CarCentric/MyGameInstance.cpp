@@ -40,7 +40,9 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *GameOverWidgetClass->GetName());
 
-	totalTime = 10;
+	// FOR TESTING SET TOTALTIME TO 99999 ELSE 10
+	totalTime = 99999;
+	// totalTime = 10;
 
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
