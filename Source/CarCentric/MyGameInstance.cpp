@@ -41,8 +41,8 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *GameOverWidgetClass->GetName());
 
 	// FOR TESTING SET TOTALTIME TO 99999 ELSE 10
-	totalTime = 99999;
-	// totalTime = 10;
+	// totalTime = 99999;
+	totalTime = 10;
 
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
@@ -76,6 +76,13 @@ void UMyGameInstance::TimerFunction()
 		// Game over. Pause timer and remove input from player (Except Mouse/UI Input)
 		ExitHUDUIWidget();
 	}
+}
+
+// Function Called from BP_TimePowerup. Before destroying actor, totalTime 
+// will increase and add time to in game timer 
+void UMyGameInstance::TimePowerupCollect()
+{
+	totalTime += 5;
 }
 
 // Add Timer to Player screen. 

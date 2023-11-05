@@ -98,7 +98,7 @@ void ACarCentricCharacter::Move(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if (Controller != nullptr && GetCharacterMovement()->IsMovingOnGround())
 	{
 		// find out which way is forward
 		const FRotator Rotation = Controller->GetControlRotation();

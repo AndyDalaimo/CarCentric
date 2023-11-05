@@ -41,13 +41,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RestartGame();
 
+	// Player Collected time powerup in game world
+	UFUNCTION(BlueprintCallable)
+	void TimePowerupCollect();
+
 	// In Game Timer shown on HUD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 totalTime;
 
 private:
 
-
+	// Properties for in game timer
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;
 	float timerRate = 1.f;

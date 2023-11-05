@@ -2,6 +2,7 @@
 
 
 #include "TimePowerup.h"
+#include "Engine/World.h"
 
 // Sets default values
 ATimePowerup::ATimePowerup()
@@ -13,14 +14,14 @@ ATimePowerup::ATimePowerup()
 	ClockMesh->SetupAttachment(RootComponent);
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
-	BoxCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	BoxCollider->AttachToComponent(ClockMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ATimePowerup::CollectPowerup);
 
 
 }
 
 
-// Event Called when Player picks up time powerup
+// Event Called when Player picks up time powerup. Will call event to update player timer and destroy object
 void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor,
 	UPrimitiveComponent* OtherComp,
@@ -31,9 +32,15 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 	if (OtherActor && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap Begin"));
+		UpdateGameInstanceTimer();
+		Destroy();
 	}
+}
 
-
+// Blueprint Event To update in game timer
+void ATimePowerup::UpdateGameInstanceTimer_Implementation()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Update Game Timer"));
 }
 
 // Called when the game starts or when spawned

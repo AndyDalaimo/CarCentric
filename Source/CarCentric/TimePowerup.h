@@ -35,6 +35,9 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult);
 
+	UFUNCTION(BlueprintNativeEvent)
+	void UpdateGameInstanceTimer();
+
 public:	
 	// Called every frame
 	// virtual void Tick(float DeltaTime) override;
