@@ -13,17 +13,18 @@
 
 UMyGameInstance::UMyGameInstance(const FObjectInitializer& ObjectInitializer)
 {
+
 	static ConstructorHelpers::FClassFinder<UUserWidget> HUDFinder(TEXT("/Script/Engine.UserWidget'/Game/UI/WBP_HUD'"));
 	static ConstructorHelpers::FClassFinder<UUserWidget> GameOverFinder(TEXT("/Game/UI/WBP_GameOver"));
 
 	if (!HUDFinder.Succeeded() && !GameOverFinder.Succeeded())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Nope"));
+		UE_LOG(LogTemp, Warning, TEXT("UI NOT FOUND"));
 		return;
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Yep"));
+		UE_LOG(LogTemp, Warning, TEXT("UI FOUND"));
 		HUDUIWidgetClass = HUDFinder.Class;
 		GameOverWidgetClass = GameOverFinder.Class;
 	}
@@ -37,13 +38,13 @@ UMyGameInstance::~UMyGameInstance()
 // Initialize Timer
 void UMyGameInstance::Init()
 {
+
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *GameOverWidgetClass->GetName());
 
 	// FOR TESTING SET TOTALTIME TO 99999 ELSE 10
 	// totalTime = 99999;
-	totalTime = 10;
-
+	totalTime = 5;
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
 	GetWorld()->GetTimerManager().SetTimer(GameTimer, TimerDelegate, timerRate, true);
@@ -62,8 +63,8 @@ void UMyGameInstance::TimerFunction()
 	FString timeString = timer.ToString();
 
 	// TESTING -- Shows game timer on output log (Is displayed on UI)
-	/*UE_LOG(LogTemp, Warning, TEXT("Timer elapsed %s"), *timeString);
-	UE_LOG(LogTemp, Warning, TEXT("Time Left: %d"), totalTime);*/
+	// UE_LOG(LogTemp, Warning, TEXT("Timer elapsed %s"), *timeString);
+	// UE_LOG(LogTemp, Warning, TEXT("Time Left: %d"), totalTime);
 
 	if (totalTime <= 0)
 	{
@@ -127,20 +128,17 @@ void UMyGameInstance::ShowGameOverUIWidget()
 
 }
 
-//----------------------------------------------------------------------------------------
-// TODO ----- Give Player input back after restarting Level. Below is not working when trying to give player input!! ------
-// ----------------------------------------------------------------------------------------
 // Called in From GameOver UI. Restart game time and give player control of Player
 void UMyGameInstance::RestartGame()
 {
 	APlayerController* PlayerController = GetFirstLocalPlayerController();
 
-	// Set up input parameters
-	FInputModeUIOnly InputModeData;
+	// Set up input parameters for player controller in Game
+	FInputModeGameAndUI InputModeData;
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
+	
 
 	// Set Input Mode
-	PlayerController->EnableInput(PlayerController);
 	PlayerController->SetInputMode(InputModeData);
 	PlayerController->bShowMouseCursor = false;
 

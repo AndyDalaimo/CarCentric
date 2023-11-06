@@ -51,6 +51,7 @@ public:
 
 private:
 
+
 	// Properties for in game timer
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;

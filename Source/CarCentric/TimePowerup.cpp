@@ -31,7 +31,7 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 {
 	if (OtherActor && (OtherActor != this) && OtherComp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Overlap Begin"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Time Powerup Collected"));
 		UpdateGameInstanceTimer();
 		Destroy();
 	}
