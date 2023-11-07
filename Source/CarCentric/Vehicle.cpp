@@ -4,7 +4,7 @@
 #include "Vehicle.h"
 
 // Sets default values
-AVehicle::AVehicle() : Damage(5)
+AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -19,6 +19,12 @@ AVehicle::AVehicle() : Damage(5)
 	
 }
 
+// Vehicle Destructor 
+AVehicle::~AVehicle()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Vehicle Destroyed"));
+}
+
 // Called when the game starts or when spawned
 void AVehicle::BeginPlay()
 {
@@ -26,7 +32,25 @@ void AVehicle::BeginPlay()
 	
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
+
+	// Start Movement timer
+
+	MovementDelegate.BindUFunction(this, "MovementTimer");
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, MovementTime, true);
+
 }
+
+// ---------------------------------------------------------------------------------------------
+// -------------------------TODO -> Move Vehicle along this time line---------------------------
+// ---------------------------------------------------------------------------------------------
+// Move Vechicle Along road. At the end of timer, Destroy Actor
+void AVehicle::MovementTimer(float movementSpeed)
+{
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Movement Timer Called"));
+	
+}
+
+
 
 // Collision Event when player is hit by Vehicle. 
 // Will call damge event which will pass the damage amount (Dependant on vehicle type)
@@ -64,9 +88,11 @@ float AVehicle::SetSpeed(VehicleType type)
 		case VehicleType::TRUCK : 
 			return 8.0f;
 		default :
-			return 10.0f;
+			return 0.0f;
 	}
 }
+
+
 
 
 // Called every frame

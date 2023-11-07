@@ -8,6 +8,7 @@
 #include "Vehicle.generated.h"
 
 
+
 UENUM(BlueprintType)
 enum class VehicleType : uint8 {
 	DEFAULT = 0 UMETA(DisplayName = "Default"),
@@ -39,6 +40,7 @@ class CARCENTRIC_API AVehicle : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AVehicle();
+	~AVehicle() override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -58,9 +60,21 @@ protected:
 	void DamagePlayer(int32 damageAmount);
 	void DamagePlayer_Implementation(int32 damageAmount);
 
+
 	// Set Vehicle Speed depending on vehicle type
 	// Speed used in Timer function for movement
 	float SetSpeed(VehicleType type);
+
+private:
+
+	// Timer Properties
+	FTimerHandle MovementHandler;
+	FTimerDelegate MovementDelegate;
+	float MovementTime;
+
+	// Timer to call movement of Vehicle 
+	UFUNCTION()
+	void MovementTimer(float movementSpeed);
 
 public:	
 	// Called every frame

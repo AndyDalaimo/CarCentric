@@ -15,7 +15,6 @@ class CARCENTRIC_API UMyGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
-
 public:
 
 	UMyGameInstance(const FObjectInitializer& ObjectInitializer);
