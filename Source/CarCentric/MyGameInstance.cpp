@@ -36,6 +36,7 @@ UMyGameInstance::~UMyGameInstance()
 }
 
 // Initialize Timer
+// Set default values for totalTime as well as validating widgets in game
 void UMyGameInstance::Init()
 {
 
@@ -53,6 +54,8 @@ void UMyGameInstance::Init()
 }
 
 // Function Called from timer 
+// Format time into usable string for HUD UI
+// Exit and invalidate timer when reaching Zero. Exit UI and call Game Over
 void UMyGameInstance::TimerFunction()
 {
 	seconds++;

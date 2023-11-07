@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // ACarCentricCharacter
 
-ACarCentricCharacter::ACarCentricCharacter()
+ACarCentricCharacter::ACarCentricCharacter() : HP(50)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);

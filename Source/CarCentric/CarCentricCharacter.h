@@ -41,6 +41,11 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* TimerAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
+	int32 HP;
+
+
+
 public:
 	ACarCentricCharacter();
 	

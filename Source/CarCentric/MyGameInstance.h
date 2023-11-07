@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "CarCentricCharacter.h"
 #include "Blueprint/UserWidget.h"
 #include "MyGameInstance.generated.h"
 
