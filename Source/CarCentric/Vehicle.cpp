@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+
+
 #include "Vehicle.h"
 
 
@@ -17,9 +19,6 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::DamagePlayerOnCollision);
-	
-
-
 
 }
 
@@ -38,7 +37,6 @@ void AVehicle::BeginPlay()
 	Speed = SetSpeed(Type);
 
 	// Start Movement timer
-
 	MovementDelegate.BindUFunction(this, "MovementTimer");
 	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed/10, true);
 
@@ -50,10 +48,8 @@ void AVehicle::BeginPlay()
 // Move Vechicle Along road. At the end of timer, Destroy Actor
 void AVehicle::MovementTimer(float movementSpeed)
 {
-	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Movement Timer Called"));
-	if(this->IsValidLowLevel()) this->SetActorLocation((this->GetActorLocation() + FVector(0.f, 100.f, 0.f)), true);
-	
+	if(this->IsValidLowLevel()) this->SetActorLocation((this->GetActorLocation() + FVector(0.f, 100.f, 0.f)), true);	
 }
 
 
@@ -71,6 +67,8 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Hit By Vehicle"));
 		DamagePlayer(Damage);
+		GetWorld()->GetTimerManager().ClearTimer(MovementHandler);
+
 	}
 }
 
@@ -107,4 +105,5 @@ float AVehicle::SetSpeed(VehicleType type)
 	Super::Tick(DeltaTime);
 
 }*/
+
 

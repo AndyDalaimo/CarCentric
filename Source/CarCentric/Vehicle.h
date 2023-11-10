@@ -38,6 +38,8 @@ class CARCENTRIC_API AVehicle : public AActor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	VehicleType Type;
+
+	 
 	
 public:	
 	// Sets default values for this actor's properties

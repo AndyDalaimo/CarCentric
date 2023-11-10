@@ -141,7 +141,6 @@ void UMyGameInstance::RestartGame()
 	FInputModeGameAndUI InputModeData;
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::LockInFullscreen);
 	
-
 	// Set Input Mode
 	PlayerController->SetInputMode(InputModeData);
 	PlayerController->bShowMouseCursor = false;
