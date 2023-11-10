@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "CarCentricCharacter.h"
+#include <Kismet/GameplayStatics.h>
 #include "Vehicle.generated.h"
 
 

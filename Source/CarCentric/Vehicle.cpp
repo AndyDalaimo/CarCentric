@@ -3,6 +3,7 @@
 
 #include "Vehicle.h"
 
+
 // Sets default values
 AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 {
@@ -17,6 +18,9 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::DamagePlayerOnCollision);
 	
+
+
+
 }
 
 // Vehicle Destructor 
@@ -36,7 +40,7 @@ void AVehicle::BeginPlay()
 	// Start Movement timer
 
 	MovementDelegate.BindUFunction(this, "MovementTimer");
-	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, MovementTime, true);
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed/10, true);
 
 }
 
@@ -46,7 +50,9 @@ void AVehicle::BeginPlay()
 // Move Vechicle Along road. At the end of timer, Destroy Actor
 void AVehicle::MovementTimer(float movementSpeed)
 {
-	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Movement Timer Called"));
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Movement Timer Called"));
+	if(this->IsValidLowLevel()) this->SetActorLocation((this->GetActorLocation() + FVector(0.f, 100.f, 0.f)), true);
 	
 }
 
@@ -61,7 +67,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep, const 
 	FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
+	if ((OtherActor) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Hit By Vehicle"));
 		DamagePlayer(Damage);

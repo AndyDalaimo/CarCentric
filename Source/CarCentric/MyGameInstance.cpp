@@ -126,6 +126,7 @@ void UMyGameInstance::ShowGameOverUIWidget()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Game Over UI");
 
+	// Create widget and add to screen
 	UUserWidget* GameOverUI = CreateWidget<UUserWidget>(this, *GameOverWidgetClass);
 	GameOverUI->AddToViewport();
 
