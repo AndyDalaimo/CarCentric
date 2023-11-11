@@ -44,8 +44,8 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *GameOverWidgetClass->GetName());
 
 	// FOR TESTING SET TOTALTIME TO 99999 ELSE 10
-	// totalTime = 99999;
-	totalTime = 5;
+	totalTime = 9999;
+	// totalTime = 10;
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
 	GetWorld()->GetTimerManager().SetTimer(GameTimer, TimerDelegate, timerRate, true);

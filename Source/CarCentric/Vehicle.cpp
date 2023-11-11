@@ -32,6 +32,11 @@ AVehicle::~AVehicle()
 void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	this->SetLifeSpan(7.f);
+
+	// Set Reference to Player
+	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
@@ -63,7 +68,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep, const 
 	FHitResult& SweepResult)
 {
-	if ((OtherActor) && (OtherActor != this) && OtherComp)
+	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Hit By Vehicle"));
 		DamagePlayer(Damage);

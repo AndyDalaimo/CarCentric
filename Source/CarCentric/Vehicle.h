@@ -71,6 +71,9 @@ protected:
 
 private:
 
+	// Reference to Player
+	ACarCentricCharacter* PlayerRef;
+
 	// Timer Properties
 	FTimerHandle MovementHandler;
 	FTimerDelegate MovementDelegate;
