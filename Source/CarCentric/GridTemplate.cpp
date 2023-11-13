@@ -10,16 +10,21 @@ AGridTemplate::AGridTemplate()
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_Cube.SM_Cube"));
-	UStaticMesh* Asset = MeshAsset.Object;
+	UStaticMesh* Cube = MeshAsset.Object;
 	
 
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
 	GridMesh->SetupAttachment(RootComponent);
-	GridMesh->SetStaticMesh(Asset);
+	GridMesh->SetStaticMesh(Cube);
 	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
 
-	
+	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
+	VehiclePath->AttachToComponent(GridMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	VehiclePath->Mobility = EComponentMobility::Movable;
+	VehiclePath->SetVisibility(true);
+	VehiclePath->SetRelativeLocationAndRotation(FVector(25.f, 0.f, 0.f), FRotator(0, 90, 0));
 }
+
 
 AGridTemplate::~AGridTemplate()
 {

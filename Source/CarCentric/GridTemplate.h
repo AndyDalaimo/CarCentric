@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
 
 UCLASS()
@@ -17,6 +18,8 @@ class CARCENTRIC_API AGridTemplate : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GridMesh;
 
+	UPROPERTY(VisibleAnywhere, BLueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+	class USplineComponent* VehiclePath;
 
 
 

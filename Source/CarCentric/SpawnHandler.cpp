@@ -83,7 +83,8 @@ void ASpawnHandler::DeleteGrid()
 	if (ActiveGrids.Num() > 4)
 	{
 		// Remove Grid Actor from end of Vector (oldest element)
-		GetWorld()->DestroyActor(ActiveGrids.Pop());
+		GetWorld()->DestroyActor(ActiveGrids.Pop(true));
+
 	}
 	
 }
