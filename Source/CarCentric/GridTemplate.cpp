@@ -9,9 +9,14 @@ AGridTemplate::AGridTemplate()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_Cube.SM_Cube"));
+	UStaticMesh* Asset = MeshAsset.Object;
+	
+
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
 	GridMesh->SetupAttachment(RootComponent);
-	GridMesh->SetWorldScale3D(FVector3d(25.f, 25.f,.5f));
+	GridMesh->SetStaticMesh(Asset);
+	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
 
 	
 }
