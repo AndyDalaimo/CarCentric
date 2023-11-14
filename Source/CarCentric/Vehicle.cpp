@@ -53,7 +53,6 @@ void AVehicle::BeginPlay()
 // Move Vechicle Along road. At the end of timer, Destroy Actor
 void AVehicle::MovementTimer(float movementSpeed)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Movement Timer Called"));
 	if(this->IsValidLowLevel()) this->SetActorLocation((this->GetActorLocation() + FVector(0.f, 100.f, 0.f)), true);	
 }
 
