@@ -27,7 +27,7 @@ class CARCENTRIC_API AGridTemplate : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGridTemplate();
-	~AGridTemplate() override;
+	// ~AGridTemplate();
 
 protected:
 	// Called when the game starts or when spawned

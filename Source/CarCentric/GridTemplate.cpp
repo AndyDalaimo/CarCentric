@@ -14,7 +14,8 @@ AGridTemplate::AGridTemplate()
 	
 
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
-	GridMesh->SetupAttachment(RootComponent);
+	SetRootComponent(GridMesh);
+	// GridMesh->SetupAttachment(RootComponent);
 	GridMesh->SetStaticMesh(Cube);
 	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
 
@@ -26,10 +27,10 @@ AGridTemplate::AGridTemplate()
 }
 
 
-AGridTemplate::~AGridTemplate()
+/*AGridTemplate::~AGridTemplate()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Grid Destroyed");
-}
+}*/
 
 // Called when the game starts or when spawned
 void AGridTemplate::BeginPlay()
