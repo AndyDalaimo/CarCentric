@@ -10,6 +10,56 @@
 #include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
 
+
+// Enumerator which will tell Spawn handler where Player is headed and 
+// where to place its spawning collider
+UENUM(BlueprintType)
+enum class EGridDirection : uint8 {
+	FORWARD = 0 UMETA(DisplayName = "Forward"),
+	RIGHT = 1 UMETA(DisplayName = "Right"),
+	LEFT = 2 UMETA(DisplayName = "Left")
+};
+
+
+// Dynamic layout for GridTemplate
+// Default / Initialized position Will be forward 
+USTRUCT(BlueprintType)
+struct FGridLayout
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	FGridLayout();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	EGridDirection Direction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	FVector splineLocation_0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	FVector splineLocation_1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	FRotator splineRotation_0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	FRotator splineRotation_1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
+	FVector PowerupPlacement;
+
+	// Default Values
+	void init()
+	{
+		Direction = EGridDirection::FORWARD;
+		splineLocation_0 = FVector(25.f, 0.f, 0.f);
+		splineLocation_1 = FVector(75.f, 0.f, 0.f);
+		splineRotation_0 = FRotator(0, 90, 0);
+		splineRotation_1 = FRotator(0, 90, 0); 
+		PowerupPlacement = FVector(25.f, 50.f, 0.f);
+	}
+
+};
+
 UCLASS()
 class CARCENTRIC_API AGridTemplate : public AActor
 {
@@ -23,8 +73,6 @@ class CARCENTRIC_API AGridTemplate : public AActor
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
 	class USplineComponent* VehiclePath1;
-
-
 
 	
 public:	
@@ -40,4 +88,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
+		FGridLayout Layout;
+	
 };

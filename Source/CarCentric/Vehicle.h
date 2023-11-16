@@ -12,7 +12,7 @@
 
 
 UENUM(BlueprintType)
-enum class VehicleType : uint8 {
+enum class EVehicleType : uint8 {
 	DEFAULT = 0 UMETA(DisplayName = "Default"),
 	COMPACT = 1 UMETA(DisplayName = "Compact"),
 	TRUCK = 2 UMETA(DisplayName = "Truck")
@@ -37,7 +37,7 @@ class CARCENTRIC_API AVehicle : public AActor
 	float Speed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
-	VehicleType Type;
+	EVehicleType Type;
 
 	 
 	
@@ -67,7 +67,7 @@ protected:
 
 	// Set Vehicle Speed depending on vehicle type
 	// Speed used in Timer function for movement
-	float SetSpeed(VehicleType type);
+	float SetSpeed(EVehicleType type);
 
 private:
 

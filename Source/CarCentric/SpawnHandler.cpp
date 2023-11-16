@@ -8,23 +8,10 @@ ASpawnHandler::ASpawnHandler()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	North_BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("North_BoxCollider"));
-	North_BoxCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	North_BoxCollider->SetRelativeScale3D(FVector(0.5f, 25.f, 1.f));
-	North_BoxCollider->SetVisibility(true);
-	
-	
-	West_BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("West_BoxCollider"));
-	West_BoxCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	West_BoxCollider->SetRelativeScale3D(FVector(25.f, .5f, 1.f));
-	West_BoxCollider->SetVisibility(true);
-
-
-	East_BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("East_BoxCollider"));
-	East_BoxCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	East_BoxCollider->SetRelativeScale3D(FVector(25.f, .5f, 1.f));
-	East_BoxCollider->SetVisibility(true);
-
+	SpawnCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("North_BoxCollider"));
+	SpawnCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SpawnCollider->SetRelativeScale3D(FVector(0.5f, 25.f, 1.f));
+	SpawnCollider->SetVisibility(true);
 
 }
 
@@ -36,19 +23,17 @@ void ASpawnHandler::BeginPlay()
 	// Set player Ref
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	UE_LOG(LogTemp, Warning, TEXT("Player Location: %s"), *PlayerRef->GetActorLocation().ToString());
-	North_BoxCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
-	
-	
+	SpawnCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
 	
 	// Grab Player Location and place spawner in correct position
 	FVector PlayerLoc = PlayerRef->GetActorLocation();
 	// Collider placed in position on Grid template to Begin Play
-	North_BoxCollider->SetWorldLocation(FVector(1000.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
-	West_BoxCollider->SetWorldLocation(FVector(PlayerLoc.X, PlayerLoc.Y - 1500.f, PlayerLoc.Z));
-	East_BoxCollider->SetWorldLocation(FVector(PlayerLoc.X, PlayerLoc.Y + 1500.f, PlayerLoc.Z));
+	SpawnCollider->SetWorldLocation(FVector(1000.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
 }
 
-
+// ---------------------------------------------------------------------------------------------------------------
+// ------------------ TODO: Call helper functions to change properties of Grid spawned ---------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // Spawn a new Grid template when plaeyr passes spawn collider. Move Collider to Further position on Grid
 // tempLoc will take previous Grid Template and add the size of grid to vector to place new Grid in line
 // Collider will move in position onto new Grid Template
@@ -63,9 +48,11 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		FActorSpawnParameters SpawnInfo;
 
 		// Add Newly spawned grid to beginning of vector
-		ActiveGrids.Insert((Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo))), 0);
+		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
+		ActiveGrids.Insert(NewGrid, 0);
 
-		North_BoxCollider->SetWorldLocation(FVector(tempLoc.X,
+		// 
+		SpawnCollider->SetWorldLocation(FVector(tempLoc.X,
 			this->GetActorLocation().Y, this->GetActorLocation().Z));
 
 		// Delete useless grid actors

@@ -16,15 +16,8 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 
 	// Box Collision at top of grid
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = SpawnCollider, meta = (AllowPrivateAccess = "true"))
-		class UBoxComponent* North_BoxCollider;
-		
-	// Box Collision at left of grid
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = SpawnCollider, meta = (AllowPrivateAccess = "true"))
-		class UBoxComponent* West_BoxCollider;
+		class UBoxComponent* SpawnCollider;
 	
-	// Box Collision at right of grid
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = SpawnCollider, meta = (AllowPrivateAccess = "true"))
-		class UBoxComponent* East_BoxCollider;
 
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
@@ -46,12 +39,13 @@ private:
 	ACarCentricCharacter* PlayerRef;
 
 	// Grid template to Spawn
-	AGridTemplate* GridTemplate;
+	AGridTemplate* NewGrid;
 
 	// Spawn new Grid Template 
 	UFUNCTION()
 		void SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	// Delete oldest grid from World and update array
 	UFUNCTION()
 		void DeleteGrid();
 

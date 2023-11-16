@@ -11,7 +11,8 @@ AGridTemplate::AGridTemplate()
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_Cube.SM_Cube"));
 	UStaticMesh* Cube = MeshAsset.Object;
-	
+
+	Layout.init();
 
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
 	SetRootComponent(GridMesh);
@@ -23,15 +24,14 @@ AGridTemplate::AGridTemplate()
 	VehiclePath->AttachToComponent(GridMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
-	VehiclePath->SetRelativeLocationAndRotation(FVector(25.f, 0.f, 0.f), FRotator(0, 90, 0));
+	VehiclePath->SetRelativeLocationAndRotation(Layout.splineLocation_0, Layout.splineRotation_0);
 
 	VehiclePath1 = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath1"));
 	VehiclePath1->AttachToComponent(GridMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	VehiclePath1->Mobility = EComponentMobility::Movable;
 	VehiclePath1->SetVisibility(true);
-	VehiclePath1->SetRelativeLocationAndRotation(FVector(75.f, 0.f, 0.f), FRotator(0, 90, 0));
-
-
+	VehiclePath1->SetRelativeLocationAndRotation(Layout.splineLocation_1, Layout.splineRotation_1);
+	
 }
 
 
@@ -51,6 +51,17 @@ void AGridTemplate::BeginPlay()
 void AGridTemplate::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+
+// ----------------------------------------------------------------------------------------------
+// ---------------------------------Grid Layout Function Definitions ---------------------------- 
+// ----------------------------------------------------------------------------------------------
+
+// Initialize Grid Layout
+FGridLayout::FGridLayout()
+{
 
 }
 

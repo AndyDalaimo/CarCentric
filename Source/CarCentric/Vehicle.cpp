@@ -85,15 +85,15 @@ void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
 
 
 // Set Speed of Vehicle to be used in movement Timer
-float AVehicle::SetSpeed(VehicleType type)
+float AVehicle::SetSpeed(EVehicleType type)
 {
 	switch (type)
 	{
-		case VehicleType::DEFAULT :
+		case EVehicleType::DEFAULT :
 			return 1.0f;
-		case VehicleType::COMPACT :
+		case EVehicleType::COMPACT :
 			return 5.0f;
-		case VehicleType::TRUCK : 
+		case EVehicleType::TRUCK : 
 			return 8.0f;
 		default :
 			return 0.0f;
