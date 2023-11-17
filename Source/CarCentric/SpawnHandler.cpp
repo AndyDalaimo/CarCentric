@@ -63,6 +63,8 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 	}
 }
 
+// Update Direction from tempLoc. This temporary value will be updated every time a new GridTemplate
+// is spawned.
 FVector ASpawnHandler::UpdateGridSpawnLocation(uint8 direction)
 {
 	// Change location based on Grid Direction (Forward, Right, Left)
