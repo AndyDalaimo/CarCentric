@@ -49,11 +49,12 @@ public:
 
 	EGridDirection GrabRandomDirection();
 
+public:
 	// Default Values
 	void init()
 	{
-		// Direction = GrabRandomDirection();
-		Direction = EGridDirection::FORWARD;
+		Direction = GrabRandomDirection();
+		// Direction = EGridDirection::FORWARD;
 		splineLocation_0 = FVector(25.f, 0.f, 0.f);
 		splineLocation_1 = FVector(75.f, 0.f, 0.f);
 		splineRotation_0 = FRotator(0, 90, 0);

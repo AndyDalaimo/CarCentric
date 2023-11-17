@@ -67,8 +67,9 @@ FGridLayout::FGridLayout()
 
 EGridDirection FGridLayout::GrabRandomDirection()
 {
-	int i = rand() % 5;
 
+	int i = rand() % 5;
+	
 	switch (i)
 	{
 	case 0 : 
