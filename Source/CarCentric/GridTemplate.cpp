@@ -31,7 +31,7 @@ AGridTemplate::AGridTemplate()
 	VehiclePath1->Mobility = EComponentMobility::Movable;
 	VehiclePath1->SetVisibility(true);
 	VehiclePath1->SetRelativeLocationAndRotation(Layout.splineLocation_1, Layout.splineRotation_1);
-	
+
 }
 
 
@@ -63,5 +63,23 @@ void AGridTemplate::Tick(float DeltaTime)
 FGridLayout::FGridLayout()
 {
 
+}
+
+EGridDirection FGridLayout::GrabRandomDirection()
+{
+	int i = rand() % 5;
+
+	switch (i)
+	{
+	case 0 : 
+		return EGridDirection::FORWARD;
+	case 1 : 
+		return EGridDirection::RIGHT;
+	case 2 :
+		return EGridDirection::LEFT;
+	default :
+		return EGridDirection::FORWARD;
+	}
+	
 }
 

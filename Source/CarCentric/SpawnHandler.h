@@ -45,6 +45,15 @@ private:
 	UFUNCTION()
 		void SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION()
+		FVector UpdateGridSpawnLocation(uint8 direction);
+
+	UFUNCTION()
+		FVector UpdateSpawnColliderLocation(FVector loc, uint8 direction);
+
+	UFUNCTION()
+		FRotator UpdateSpawnColliderRotation(uint8 direction);
+
 	// Delete oldest grid from World and update array
 	UFUNCTION()
 		void DeleteGrid();

@@ -43,7 +43,9 @@ void UMyGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *GameOverWidgetClass->GetName());
 
-	// FOR TESTING SET TOTALTIME TO 99999 ELSE 10
+	// --------------------------DEBUG------------------------------------
+	// FOR TESTING SET TOTALTIME TO 9999 ELSE 10
+	// --------------------------DEBUG------------------------------------
 	totalTime = 9999;
 	// totalTime = 10;
 

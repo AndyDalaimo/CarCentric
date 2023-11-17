@@ -43,22 +43,70 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 
+		// Properties of New Grid Spawn Location / Rotation
 		tempLoc = FVector(((float)tempLoc.X + 2000.f), 0.0f, -50.f);
-		FRotator Rotation(0.0f, 0.0f, 0.0f);
+		FRotator Rotation(0.0, 0.0, 0.0);
 		FActorSpawnParameters SpawnInfo;
 
 		// Add Newly spawned grid to beginning of vector
 		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
 		ActiveGrids.Insert(NewGrid, 0);
 
-		// 
-		SpawnCollider->SetWorldLocation(FVector(tempLoc.X,
-			this->GetActorLocation().Y, this->GetActorLocation().Z));
+
+		// Move Spawn collider to next correct position 
+		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)NewGrid->Layout.Direction), 
+			UpdateSpawnColliderRotation((uint8)NewGrid->Layout.Direction));
 
 		// Delete useless grid actors
 		DeleteGrid();
 
 	}
+}
+
+FVector ASpawnHandler::UpdateGridSpawnLocation(uint8 direction)
+{
+	// Change location based on Grid Direction (Forward, Right, Left)
+	switch (direction)
+	{
+	case 0 : 
+		return FVector(((float)tempLoc.X + 2000.f), 0.0f, -50.f);
+	case 1 : 
+		return FVector(((float)tempLoc.X), 2000.0f, -50.f);
+	case 2 :
+		return FVector(((float)tempLoc.X), -2000.0f, -50.f);
+	}
+
+	return FVector();
+}
+
+// Update new position for Spawn Collider depending on which direction player is heading
+FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
+{
+	// Change location based on Grid Direction (Forward, Right, Left)
+	switch (direction)
+	{
+		case 0 :
+			return FVector(loc.X, this->GetActorLocation().Y, this->GetActorLocation().Z);
+		case 1 : 
+			return FVector(loc.X + 1000, this->GetActorLocation().Y + 1000, this->GetActorLocation().Z);
+		case 2 :
+			return FVector(loc.X + 1000, this->GetActorLocation().Y - 1000, this->GetActorLocation().Z);
+	}
+
+	return FVector(loc.X, this->GetActorLocation().Y, this->GetActorLocation().Z);
+}
+
+// Update new rotation for Spawn Collider depending on which direction player is heading
+FRotator ASpawnHandler::UpdateSpawnColliderRotation(uint8 direction)
+{
+	switch (direction)
+	{
+	case 0  : 
+		return FRotator(0.0, 0.0, 0.0);
+	default : 
+		return FRotator(0.0, 90.0, 0.0);
+	}
+	return FRotator(0.0, 0.0, 0.0);
 }
 
 // After more than 4 Grid templates have spawned, delete actor in 0 position.
