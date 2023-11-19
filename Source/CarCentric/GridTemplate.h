@@ -7,6 +7,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
 
@@ -48,6 +49,9 @@ public:
 	FVector PowerupPlacement;
 
 	EGridDirection GrabRandomDirection();
+
+private:
+	
 
 public:
 	// Default Values
@@ -94,5 +98,4 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
 		FGridLayout Layout;
-	
 };

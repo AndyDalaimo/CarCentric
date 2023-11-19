@@ -10,7 +10,8 @@ ASpawnHandler::ASpawnHandler()
 
 	SpawnCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("North_BoxCollider"));
 	SpawnCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	SpawnCollider->SetRelativeScale3D(FVector(0.5f, 25.f, 1.f));
+	SpawnCollider->SetRelativeScale3D(FVector(0.5f, 30.f, 10.f));
+	SpawnCollider->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
 	SpawnCollider->SetVisibility(true);
 
 }
@@ -39,42 +40,40 @@ void ASpawnHandler::BeginPlay()
 // Collider will move in position onto new Grid Template
 void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
+	if ((OtherActor) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 
 		FRotator Rotation(0.0, 0.0, 0.0);
 		FActorSpawnParameters SpawnInfo;
 
-		// Will Only be called once. First grid Spawned
+		// Will Only be called once. First grid Spawned in Level
 		if (ActiveGrids.Num() == 0)
 		{
-			tempLoc = FVector(((float)tempLoc.X + 2000.f), 0.0f, -50.f);
+			tempLoc = FVector(0.0f, 0.0f, -50.f);
 			NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
+			NewGrid->Layout.Direction = EGridDirection::FORWARD;
 			ActiveGrids.Insert(NewGrid, 0);
-
 
 			// Move Spawn collider to next correct position 
 			SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)NewGrid->Layout.Direction),
 				UpdateSpawnColliderRotation((uint8)NewGrid->Layout.Direction));
 
-			// Delete useless grid actors
-			DeleteGrid();
 			return;
 		}
 
 		// Properties of New Grid Spawn Location / Rotation
 		tempLoc = ActiveGrids[0]->GetActorLocation();
-
-		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
-
 		
-		// Add Newly spawned grid to beginning of vector
-		ActiveGrids.Insert(NewGrid, 0);
+		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
+		
 
 		// Move Spawn collider to next correct position 
 		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[0]->Layout.Direction),
 			UpdateSpawnColliderRotation((uint8)ActiveGrids[0]->Layout.Direction));
+		
+		// Add Newly spawned grid to beginning of vector
+		ActiveGrids.Insert(NewGrid, 0);
 
 		// Delete useless grid actors
 		DeleteGrid();
@@ -94,7 +93,7 @@ FVector ASpawnHandler::UpdateGridSpawnLocation(uint8 direction)
 	case 1 : 
 		return FVector(((float)tempLoc.X), tempLoc.Y + 2000.0f, -50.f);
 	case 2 :
-		return FVector(((float)tempLoc.X), tempLoc.Y - -2000.0f, -50.f);
+		return FVector(((float)tempLoc.X), tempLoc.Y - 2000.0f, -50.f);
 	}
 
 	return FVector();
@@ -107,11 +106,11 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 	switch (direction)
 	{
 		case 0 :
-			return FVector(loc.X, this->GetActorLocation().Y, this->GetActorLocation().Z);
+			return FVector(loc.X + 2000.f, tempLoc.Y + 1000.f, this->GetActorLocation().Z);
 		case 1 : 
-			return FVector(loc.X + 1000.f, this->GetActorLocation().Y + 1000.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 1000.f, tempLoc.Y + 2000.f, this->GetActorLocation().Z);
 		case 2 :
-			return FVector(loc.X + 1000.f, this->GetActorLocation().Y - 1000.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 1000.f, tempLoc.Y, this->GetActorLocation().Z);
 	}
 
 	return FVector(loc.X, this->GetActorLocation().Y, this->GetActorLocation().Z);

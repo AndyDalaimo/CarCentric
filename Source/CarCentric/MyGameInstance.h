@@ -47,6 +47,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 totalTime;
 
+	UPROPERTY()
+	int32 seconds = 0;
 private:
 
 
@@ -54,7 +56,6 @@ private:
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;
 	float timerRate = 1.f;
-	int32 seconds = 0;
 
 	// In Game timer started on Start Game 
 	UFUNCTION()
