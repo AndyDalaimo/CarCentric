@@ -49,22 +49,24 @@ public:
 
 	UPROPERTY()
 	int32 seconds = 0;
-private:
 
+private:
 
 	// Properties for in game timer
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;
 	float timerRate = 1.f;
 
-	// In Game timer started on Start Game 
-	UFUNCTION()
-	void TimerFunction();
-
 	// HUD with Game Timer
 	TSubclassOf<UUserWidget> HUDUIWidgetClass;
 
 	// Game Over UI
 	TSubclassOf<UUserWidget> GameOverWidgetClass;
+
+	// In Game timer started on Start Game 
+	UFUNCTION()
+	void TimerFunction();
+
+
 
 };

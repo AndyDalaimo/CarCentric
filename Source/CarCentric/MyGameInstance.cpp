@@ -45,9 +45,9 @@ void UMyGameInstance::Init()
 
 	// --------------------------DEBUG------------------------------------
 	// FOR TESTING SET TOTALTIME TO 9999 ELSE 10
-	// --------------------------DEBUG------------------------------------
 	totalTime = 9999;
 	// totalTime = 10;
+	// --------------------------DEBUG------------------------------------
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
 	GetWorld()->GetTimerManager().SetTimer(GameTimer, TimerDelegate, timerRate, true);

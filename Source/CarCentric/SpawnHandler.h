@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GridTemplate.h"
-#include "CarCentricCharacter.h"
 #include "Components/BoxComponent.h"
 #include "SpawnHandler.generated.h"
 
@@ -22,6 +21,9 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
 
+	UPROPERTY()
+		uint8 CurrentGridDirection;
+
 	
 public:	
 	// Sets default values for this actor's properties
@@ -35,9 +37,6 @@ protected:
 private:
 
 	FVector tempLoc = FVector(0.0f, 0.0f, 0.0f);
-
-	// Reference to Player
-	ACarCentricCharacter* PlayerRef;
 
 	// Grid template to Spawn
 	AGridTemplate* NewGrid;

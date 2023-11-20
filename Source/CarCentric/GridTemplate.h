@@ -36,14 +36,14 @@ public:
 	EGridDirection Direction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
-	FVector splineLocation_0;
+	FVector VehicleLocation_0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
-	FVector splineLocation_1;
+	FVector VehicleLocation_1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
-	FRotator splineRotation_0;
+	FRotator VehicleRotation_0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
-	FRotator splineRotation_1;
+	FRotator VehicleRotation_1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
 	FVector PowerupPlacement;
@@ -59,10 +59,10 @@ public:
 	{
 		Direction = GrabRandomDirection();
 		// Direction = EGridDirection::FORWARD;
-		splineLocation_0 = FVector(25.f, 0.f, 0.f);
-		splineLocation_1 = FVector(75.f, 0.f, 0.f);
-		splineRotation_0 = FRotator(0, 90, 0);
-		splineRotation_1 = FRotator(0, 90, 0); 
+		VehicleLocation_0 = FVector(25.f, 0.f, 0.f);
+		VehicleLocation_1 = FVector(75.f, 0.f, 0.f);
+		VehicleRotation_0 = FRotator(0, 90, 0);
+		VehicleRotation_1 = FRotator(0, 90, 0); 
 		PowerupPlacement = FVector(25.f, 50.f, 0.f);
 	}
 
@@ -75,12 +75,6 @@ class CARCENTRIC_API AGridTemplate : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GridMesh;
-
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
-	class USplineComponent* VehiclePath;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
-	class USplineComponent* VehiclePath1;*/
 
 	
 public:	

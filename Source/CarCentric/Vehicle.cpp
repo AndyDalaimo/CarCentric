@@ -45,7 +45,11 @@ void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->SetLifeSpan(7.f);
+	// -------------------------DEBUG DEBUG DEBUG-------------------------
+	// Life span of Actor Currently Set
+	this->SetLifeSpan(10.f);
+	// -------------------------DEBUG DEBUG DEBUG-------------------------
+
 
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
@@ -71,8 +75,6 @@ void AVehicle::MovementTimer(float movementSpeed)
 {
 	// Move Vehicle Along Spline
 	currentLocation = FMath::VInterpConstantTo(currentLocation, goalLocation, GetWorld()->GetTimerManager().GetTimerElapsed(MovementHandler), 200.f);
-	UE_LOG(LogTemp, Warning, TEXT("Current Location: %s"), *currentLocation.ToString());
-
 	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);	
 }
 

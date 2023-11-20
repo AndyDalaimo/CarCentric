@@ -21,13 +21,8 @@ void ASpawnHandler::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Set player Ref
-	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	UE_LOG(LogTemp, Warning, TEXT("Player Location: %s"), *PlayerRef->GetActorLocation().ToString());
 	SpawnCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
-	
-	// Grab Player Location and place spawner in correct position
-	FVector PlayerLoc = PlayerRef->GetActorLocation();
+
 	// Collider placed in position on Grid template to Begin Play
 	SpawnCollider->SetWorldLocation(FVector(500.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
 }
@@ -53,20 +48,20 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 			tempLoc = FVector(0.0f, 0.0f, -50.f);
 			NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
 			NewGrid->Layout.Direction = EGridDirection::FORWARD;
+
 			ActiveGrids.Insert(NewGrid, 0);
 
 			// Move Spawn collider to next correct position 
 			SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)NewGrid->Layout.Direction),
 				UpdateSpawnColliderRotation((uint8)NewGrid->Layout.Direction));
 
-			return;
+			// return;
 		}
 
 		// Properties of New Grid Spawn Location / Rotation
 		tempLoc = ActiveGrids[0]->GetActorLocation();
 		
 		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
-		
 
 		// Move Spawn collider to next correct position 
 		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[0]->Layout.Direction),
@@ -113,7 +108,7 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 			return FVector(loc.X + 1000.f, tempLoc.Y, this->GetActorLocation().Z);
 	}
 
-	return FVector(loc.X, this->GetActorLocation().Y, this->GetActorLocation().Z);
+	return FVector(loc.X + 2000.f, this->GetActorLocation().Y, this->GetActorLocation().Z);
 }
 
 // Update new rotation for Spawn Collider depending on which direction player is heading

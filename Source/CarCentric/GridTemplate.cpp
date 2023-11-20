@@ -20,17 +20,6 @@ AGridTemplate::AGridTemplate()
 	GridMesh->SetStaticMesh(Cube);
 	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
 
-	/*VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
-	VehiclePath->AttachToComponent(GridMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	VehiclePath->Mobility = EComponentMobility::Movable;
-	VehiclePath->SetVisibility(true);
-	VehiclePath->SetRelativeLocationAndRotation(Layout.splineLocation_0, Layout.splineRotation_0);
-
-	VehiclePath1 = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath1"));
-	VehiclePath1->AttachToComponent(GridMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	VehiclePath1->Mobility = EComponentMobility::Movable;
-	VehiclePath1->SetVisibility(true);
-	VehiclePath1->SetRelativeLocationAndRotation(Layout.splineLocation_1, Layout.splineRotation_1);*/
 
 }
 
@@ -74,7 +63,7 @@ EGridDirection FGridLayout::GrabRandomDirection()
 	{
 	case 0 : 
 		return EGridDirection::FORWARD;
-	case 1 : 
+	case 1 :
 		return EGridDirection::RIGHT;
 	case 2 :
 		return EGridDirection::LEFT;
