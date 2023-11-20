@@ -21,10 +21,10 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
 
-	UPROPERTY()
-		uint8 CurrentGridDirection;
+	// Grid Spawn Properties 
+	FRotator Rotation;
+	FActorSpawnParameters SpawnInfo;
 
-	
 public:	
 	// Sets default values for this actor's properties
 	ASpawnHandler();

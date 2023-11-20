@@ -3,7 +3,7 @@
 #include "SpawnHandler.h"
 
 // Sets default values
-ASpawnHandler::ASpawnHandler()
+ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -39,10 +39,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 
-		FRotator Rotation(0.0, 0.0, 0.0);
-		FActorSpawnParameters SpawnInfo;
-
-		// Will Only be called once. First grid Spawned in Level
+		// Will Only be called once. First grid Spawned into Level
 		if (ActiveGrids.Num() == 0)
 		{
 			tempLoc = FVector(0.0f, 0.0f, -50.f);
@@ -54,7 +51,6 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 			// Move Spawn collider to next correct position 
 			SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)NewGrid->Layout.Direction),
 				UpdateSpawnColliderRotation((uint8)NewGrid->Layout.Direction));
-
 			// return;
 		}
 
@@ -133,9 +129,7 @@ void ASpawnHandler::DeleteGrid()
 	{
 		// Remove Grid Actor from end of Vector (oldest element)
 		GetWorld()->DestroyActor(ActiveGrids.Pop(true));
-
 	}
-	
 }
 
 // Called every frame

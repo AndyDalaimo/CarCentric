@@ -44,10 +44,10 @@ class CARCENTRIC_API AVehicle : public AActor
 	EVehicleType Type;
 
 	UPROPERTY()
-		FVector currentLocation;
+	FVector currentLocation;
 
 	UPROPERTY()
-		FVector goalLocation;
+	FVector goalLocation;
 
 	 
 	

@@ -78,8 +78,6 @@ void AVehicle::MovementTimer(float movementSpeed)
 	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);	
 }
 
-
-
 // Collision Event when player is hit by Vehicle. 
 // Will call damge event which will pass the damage amount (Dependant on vehicle type)
 void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent, 
@@ -94,7 +92,6 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Hit By Vehicle"));
 		DamagePlayer(Damage);
 		GetWorld()->GetTimerManager().ClearTimer(MovementHandler);
-
 	}
 }
 
@@ -103,9 +100,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player took %d Damage"), damageAmount);
-	
 }
-
 
 // Set Speed of Vehicle to be used in movement Timer
 float AVehicle::SetSpeed(EVehicleType type)
@@ -122,9 +117,6 @@ float AVehicle::SetSpeed(EVehicleType type)
 			return 0.0f;
 	}
 }
-
-
-
 
 // Called every frame
 /*void AVehicle::Tick(float DeltaTime)
