@@ -76,11 +76,11 @@ class CARCENTRIC_API AGridTemplate : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GridMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
 	class USplineComponent* VehiclePath;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
-	class USplineComponent* VehiclePath1;
+	class USplineComponent* VehiclePath1;*/
 
 	
 public:	

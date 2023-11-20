@@ -12,13 +12,25 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Pipe.Shape_Pipe"));
+	UStaticMesh* Pipe = MeshAsset.Object;
+
 	CarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CarMesh"));
 	CarMesh->SetupAttachment(RootComponent);
+	CarMesh->SetRelativeScale3D(FVector(2.5f, 2.5f, 2.5f));
+	CarMesh->SetStaticMesh(Pipe);
 	CarMesh->SetGenerateOverlapEvents(false);
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::DamagePlayerOnCollision);
+
+	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
+	VehiclePath->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 800, 0), ESplineCoordinateSpace::Local, true);
+	VehiclePath->Mobility = EComponentMobility::Movable;
+	VehiclePath->SetVisibility(true);
 
 }
 
@@ -33,7 +45,7 @@ void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	this->SetLifeSpan(7.f);
+	// this->SetLifeSpan(7.f);
 
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());

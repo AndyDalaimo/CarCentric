@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Components/SplineComponent.h"
 #include "CarCentricCharacter.h"
 #include <Kismet/GameplayStatics.h>
 #include "Vehicle.generated.h"
@@ -29,6 +30,9 @@ class CARCENTRIC_API AVehicle : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxCollider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+	class USplineComponent* VehiclePath;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	int32 Damage;
