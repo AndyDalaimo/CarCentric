@@ -28,7 +28,7 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 
 	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
 	VehiclePath->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 800, 0), ESplineCoordinateSpace::Local, true);
+	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 700, 0), ESplineCoordinateSpace::Local, true);
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
 
@@ -45,7 +45,7 @@ void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// this->SetLifeSpan(7.f);
+	this->SetLifeSpan(7.f);
 
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
@@ -53,19 +53,27 @@ void AVehicle::BeginPlay()
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
 
+	// Set Current location at beginning of SplinePath
+	currentLocation = VehiclePath->GetLocationAtSplinePoint(0, ESplineCoordinateSpace::World);
+	goalLocation = VehiclePath->GetLocationAtSplinePoint(1, ESplineCoordinateSpace::World);
+
 	// Start Movement timer
 	MovementDelegate.BindUFunction(this, "MovementTimer");
-	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed/10, true);
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true);
 
 }
 
-// ---------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------d
 // -------------------------TODO -> Move Vehicle along this time line---------------------------
 // ---------------------------------------------------------------------------------------------
 // Move Vechicle Along road. At the end of timer, Destroy Actor
 void AVehicle::MovementTimer(float movementSpeed)
 {
-	if(this->IsValidLowLevel()) this->SetActorLocation((this->GetActorLocation() + FVector(0.f, 100.f, 0.f)), true);	
+	// Move Vehicle Along Spline
+	currentLocation = FMath::VInterpConstantTo(currentLocation, goalLocation, GetWorld()->GetTimerManager().GetTimerElapsed(MovementHandler), 200.f);
+	UE_LOG(LogTemp, Warning, TEXT("Current Location: %s"), *currentLocation.ToString());
+
+	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);	
 }
 
 
@@ -93,6 +101,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player took %d Damage"), damageAmount);
+	
 }
 
 
@@ -104,9 +113,9 @@ float AVehicle::SetSpeed(EVehicleType type)
 		case EVehicleType::DEFAULT :
 			return 1.0f;
 		case EVehicleType::COMPACT :
-			return 5.0f;
+			return .08f;
 		case EVehicleType::TRUCK : 
-			return 8.0f;
+			return .05f;
 		default :
 			return 0.0f;
 	}

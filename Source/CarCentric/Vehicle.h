@@ -43,6 +43,12 @@ class CARCENTRIC_API AVehicle : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	EVehicleType Type;
 
+	UPROPERTY()
+		FVector currentLocation;
+
+	UPROPERTY()
+		FVector goalLocation;
+
 	 
 	
 public:	
