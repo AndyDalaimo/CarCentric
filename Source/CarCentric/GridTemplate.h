@@ -7,6 +7,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Vehicle.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
@@ -61,7 +63,7 @@ public:
 		// Direction = EGridDirection::FORWARD;
 		VehicleLocation_0 = FVector(25.f, 0.f, 0.f);
 		VehicleLocation_1 = FVector(75.f, 0.f, 0.f);
-		VehicleRotation_0 = FRotator(0, 90, 0);
+		VehicleRotation_0 = FRotator(0, 0, 0);
 		VehicleRotation_1 = FRotator(0, 90, 0); 
 		PowerupPlacement = FVector(25.f, 50.f, 0.f);
 	}
@@ -75,6 +77,10 @@ class CARCENTRIC_API AGridTemplate : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GridMesh;
+
+	UPROPERTY()
+	AVehicle* spawnVehicle;
+
 
 	
 public:	
@@ -91,5 +97,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
-		FGridLayout Layout;
+	FGridLayout Layout;
+	
+
+private:
+	FActorSpawnParameters SpawnInfo;
+
+	TSubclassOf<class AVehicle> vehicleClass;
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "CarCentricCharacter.h"
 #include "GridTemplate.h"
 #include "Components/BoxComponent.h"
 #include "SpawnHandler.generated.h"
@@ -21,6 +22,8 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
 
+
+
 	// Grid Spawn Properties 
 	FRotator Rotation;
 	FActorSpawnParameters SpawnInfo;
@@ -35,6 +38,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	// Reference to Player
+	ACarCentricCharacter* PlayerRef;
 
 	FVector tempLoc = FVector(0.0f, 0.0f, 0.0f);
 

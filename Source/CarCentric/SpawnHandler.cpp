@@ -21,6 +21,8 @@ void ASpawnHandler::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
 	SpawnCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
 
 	// Collider placed in position on Grid template to Begin Play
@@ -35,7 +37,7 @@ void ASpawnHandler::BeginPlay()
 // Collider will move in position onto new Grid Template
 void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if ((OtherActor) && (OtherActor != this) && OtherComp)
+	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 

@@ -9,17 +9,30 @@ AGridTemplate::AGridTemplate()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	static ConstructorHelpers::FClassFinder<AVehicle> VehicleFinder(TEXT("/Game/WorldItems/BP_Vehicle"));
+	vehicleClass = VehicleFinder.Class;
+
+	if (VehicleFinder.Succeeded())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BP FOUND"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("BP NOT FOUND"));
+		vehicleClass = AVehicle::StaticClass();
+	}
+
+
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_Cube.SM_Cube"));
 	UStaticMesh* Cube = MeshAsset.Object;
 
 	Layout.init();
+
 
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
 	SetRootComponent(GridMesh);
 	// GridMesh->SetupAttachment(RootComponent);
 	GridMesh->SetStaticMesh(Cube);
 	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
-
 
 }
 
@@ -33,6 +46,17 @@ AGridTemplate::AGridTemplate()
 void AGridTemplate::BeginPlay()
 {
 	Super::BeginPlay();
+	// NOT THE RIGHT LOCATION
+	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 400.f, 0.f, 0.f);
+
+	if (Layout.Direction == EGridDirection::FORWARD)
+	{
+		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
+		
+	}
+	else {
+		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_1, SpawnInfo));
+	}
 	
 }
 
@@ -56,7 +80,6 @@ FGridLayout::FGridLayout()
 
 EGridDirection FGridLayout::GrabRandomDirection()
 {
-
 	int i = rand() % 5;
 	
 	switch (i)
@@ -70,6 +93,7 @@ EGridDirection FGridLayout::GrabRandomDirection()
 	default :
 		return EGridDirection::FORWARD;
 	}
-	
 }
+
+
 

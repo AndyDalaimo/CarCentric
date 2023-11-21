@@ -32,6 +32,10 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
 
+	// Initialize the type of vehicle
+	init();
+	UE_LOG(LogTemp, Warning, TEXT("New Vehicle Type: %d"), Type);
+
 }
 
 // Vehicle Destructor 
@@ -67,7 +71,22 @@ void AVehicle::BeginPlay()
 
 }
 
-// ---------------------------------------------------------------------------------------------d
+// Initialize new vehicle
+void AVehicle::init()
+{
+	int x = rand() % 3;
+	switch (x)
+	{
+	case 0 : 
+		Type = EVehicleType::DEFAULT;
+	case 1 :
+		Type = EVehicleType::COMPACT;
+	case 2 :
+		Type = EVehicleType::TRUCK;
+	}
+}
+
+// ---------------------------------------------------------------------------------------------
 // -------------------------TODO -> Move Vehicle along this time line---------------------------
 // ---------------------------------------------------------------------------------------------
 // Move Vechicle Along road. At the end of timer, Destroy Actor

@@ -60,6 +60,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Initialize new Vehicle
+	UFUNCTION()
+		void init();
+
 	// Overlap Event When Player is hit by vehicle 
 	UFUNCTION()
 	void DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
