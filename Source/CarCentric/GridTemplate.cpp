@@ -47,15 +47,25 @@ void AGridTemplate::BeginPlay()
 {
 	Super::BeginPlay();
 	// NOT THE RIGHT LOCATION
-	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 400.f, 0.f, 0.f);
+	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 600.f, this->GetActorLocation().Y, 0.f);
+	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + 1200.f, this->GetActorLocation().Y + 2000.f, 0.f);
+	
 
 	if (Layout.Direction == EGridDirection::FORWARD)
 	{
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
+		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
 		
 	}
 	else {
-		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_1, SpawnInfo));
+
+		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 600.f, 0.f);
+		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 1200.f, 0.f);
+		Layout.VehicleRotation_0 = FRotator(0,90,0);
+		Layout.VehicleRotation_1 = FRotator(0,270,0);
+
+		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
+		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
 	}
 	
 }

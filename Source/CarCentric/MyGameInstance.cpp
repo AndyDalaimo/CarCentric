@@ -4,7 +4,6 @@
 #include "MyGameInstance.h"
 
 #include "TimerManager.h"
-#include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Misc/Timecode.h"
 #include "UObject/ConstructorHelpers.h"
@@ -45,8 +44,8 @@ void UMyGameInstance::Init()
 
 	// --------------------------DEBUG------------------------------------
 	// FOR TESTING SET TOTALTIME TO 9999 ELSE 10
-	totalTime = 9999;
-	// totalTime = 10;
+	// totalTime = 9999;
+	totalTime = 10;
 	// --------------------------DEBUG------------------------------------
 
 	TimerDelegate.BindUFunction(this, "TimerFunction");
