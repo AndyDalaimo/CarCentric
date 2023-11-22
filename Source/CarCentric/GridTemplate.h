@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Vehicle.h"
+#include "TimePowerup.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
@@ -84,6 +85,9 @@ class CARCENTRIC_API AGridTemplate : public AActor
 	UPROPERTY()
 	AVehicle* spawnVehicle1;
 
+	UPROPERTY()
+	ATimePowerup* spawnTimePowerup;
+
 
 	
 public:	
@@ -106,5 +110,7 @@ public:
 private:
 	FActorSpawnParameters SpawnInfo;
 
+	// Classes of Actors to spawn in
 	TSubclassOf<class AVehicle> vehicleClass;
+	TSubclassOf<class ATimePowerup> powerupClass;
 };

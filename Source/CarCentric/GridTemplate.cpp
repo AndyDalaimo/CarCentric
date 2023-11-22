@@ -11,14 +11,18 @@ AGridTemplate::AGridTemplate()
 
 	static ConstructorHelpers::FClassFinder<AVehicle> VehicleFinder(TEXT("/Game/WorldItems/BP_Vehicle"));
 	vehicleClass = VehicleFinder.Class;
+	
+	static ConstructorHelpers::FClassFinder<ATimePowerup> PowerupFinder(TEXT("/Game/WorldItems/BP_TimePowerup"));
+	powerupClass = PowerupFinder.Class;
 
-	if (VehicleFinder.Succeeded())
+	if (VehicleFinder.Succeeded() && PowerupFinder.Succeeded())
 	{
 		UE_LOG(LogTemp, Warning, TEXT("BP FOUND"));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("BP NOT FOUND"));
 		vehicleClass = AVehicle::StaticClass();
+		powerupClass = ATimePowerup::StaticClass();
 	}
 
 
