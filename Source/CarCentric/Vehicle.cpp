@@ -50,12 +50,12 @@ void AVehicle::BeginPlay()
 	this->SetLifeSpan(10.f);
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 
-
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	// Initialize the type of vehicle
 	Init();
+
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
 

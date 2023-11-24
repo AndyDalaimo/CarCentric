@@ -87,7 +87,7 @@ void UMyGameInstance::TimerFunction()
 // will increase and add time to in game timer 
 void UMyGameInstance::TimePowerupCollect()
 {
-	totalTime += 5;
+	totalTime += 3;
 }
 
 // Add Timer to Player screen. 

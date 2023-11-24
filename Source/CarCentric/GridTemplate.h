@@ -66,7 +66,7 @@ public:
 		VehicleRotation_0 = FRotator(0, 180, 0);
 		VehicleRotation_1 = FRotator(0, 0, 0); 
 		// Set some random value here to place powerups
-		PowerupPlacement = FVector(FMath::RandRange(250.f, 1800.f), FMath::RandRange(100.f, 1800.f), 0.f);
+		PowerupPlacement = FVector(FMath::RandRange(100.f, 900.f), FMath::RandRange(100.f, 900.f), 0.f);
 	}
 
 };
@@ -99,9 +99,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	// Initialize new grid tempalte to spawn. Will spawn vehicles and powerups
+	UFUNCTION()
+	void Init();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
 	FGridLayout Layout;

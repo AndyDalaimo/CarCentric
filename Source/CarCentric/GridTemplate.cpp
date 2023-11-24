@@ -31,12 +31,11 @@ AGridTemplate::AGridTemplate()
 
 	Layout.init();
 
-
+	// Set up Grid Mesh
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
 	SetRootComponent(GridMesh);
-	// GridMesh->SetupAttachment(RootComponent);
 	GridMesh->SetStaticMesh(Cube);
-	GridMesh->SetWorldScale3D(FVector3d(20.f, 20.f,.5f));
+	GridMesh->SetWorldScale3D(FVector3d(15.f, 15.f,.5f));
 
 }
 
@@ -59,11 +58,19 @@ void AGridTemplate::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// initialize new Grid
+	// Init();
+}
+
+// Initialize new grid tempalte to spawn. 
+// Vehicles and Powerups will spawn according to Layout
+void AGridTemplate::Init()
+{
 	// Update location for new Grid/Powerup placements
-	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 600.f, this->GetActorLocation().Y, 0.f);
-	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + 1200.f, this->GetActorLocation().Y + 2000.f, 0.f);
+	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 400.f, this->GetActorLocation().Y, 0.f);
+	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + 800.f, this->GetActorLocation().Y + 1500.f, 0.f);
 	Layout.PowerupPlacement = FVector(this->GetActorLocation().X + Layout.PowerupPlacement.X, this->GetActorLocation().Y + Layout.PowerupPlacement.Y, 0.f);
-	
+
 	// Spawn the Powerups onto map
 	spawnTimePowerup = Cast<ATimePowerup>(GetWorld()->SpawnActor<ATimePowerup>(powerupClass, Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 	// spawnTimePowerup->SetLifeSpan(20.0f);
@@ -72,14 +79,14 @@ void AGridTemplate::BeginPlay()
 	{
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
-		
+
 	}
 	else {
 
-		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 600.f, 0.f);
-		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 1200.f, 0.f);
-		Layout.VehicleRotation_0 = FRotator(0,90,0);
-		Layout.VehicleRotation_1 = FRotator(0,270,0);
+		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 400.f, 0.f);
+		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X, this->GetActorLocation().Y + 800.f, 0.f);
+		Layout.VehicleRotation_0 = FRotator(0, 90, 0);
+		Layout.VehicleRotation_1 = FRotator(0, 270, 0);
 
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));

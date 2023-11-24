@@ -26,7 +26,7 @@ void ASpawnHandler::BeginPlay()
 	SpawnCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
 
 	// Collider placed in position on Grid template to Begin Play
-	SpawnCollider->SetWorldLocation(FVector(500.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
+	SpawnCollider->SetWorldLocation(FVector(1000.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -47,6 +47,8 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 			tempLoc = FVector(0.0f, 0.0f, -50.f);
 			NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
 			NewGrid->Layout.Direction = EGridDirection::FORWARD;
+			// Initialize new Grid
+			// NewGrid->Init();
 
 			ActiveGrids.Insert(NewGrid, 0);
 
@@ -60,6 +62,8 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		tempLoc = ActiveGrids[0]->GetActorLocation();
 		
 		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
+		// Initialize new Grid
+		NewGrid->Init();
 
 		// Move Spawn collider to next correct position 
 		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[0]->Layout.Direction),
@@ -67,6 +71,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		
 		// Add Newly spawned grid to beginning of vector
 		ActiveGrids.Insert(NewGrid, 0);
+	
 
 		// Delete useless grid actors
 		DeleteGrid();
@@ -82,11 +87,11 @@ FVector ASpawnHandler::UpdateGridSpawnLocation(uint8 direction)
 	switch (direction)
 	{
 	case 0 : 
-		return FVector(((float)tempLoc.X + 2000.f), tempLoc.Y, -50.f);
+		return FVector(((float)tempLoc.X + 1500.f), tempLoc.Y, -50.f);
 	case 1 : 
-		return FVector(((float)tempLoc.X), tempLoc.Y + 2000.0f, -50.f);
+		return FVector(((float)tempLoc.X), tempLoc.Y + 1500.0f, -50.f);
 	case 2 :
-		return FVector(((float)tempLoc.X), tempLoc.Y - 2000.0f, -50.f);
+		return FVector(((float)tempLoc.X), tempLoc.Y - 1500.0f, -50.f);
 	}
 
 	return FVector();
@@ -99,14 +104,14 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 	switch (direction)
 	{
 		case 0 :
-			return FVector(loc.X + 2000.f, tempLoc.Y + 1000.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 1500.f, tempLoc.Y + 750.f, this->GetActorLocation().Z);
 		case 1 : 
-			return FVector(loc.X + 1000.f, tempLoc.Y + 2000.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
 		case 2 :
-			return FVector(loc.X + 1000.f, tempLoc.Y, this->GetActorLocation().Z);
+			return FVector(loc.X + 750.f, tempLoc.Y, this->GetActorLocation().Z);
 	}
 
-	return FVector(loc.X + 2000.f, this->GetActorLocation().Y, this->GetActorLocation().Z);
+	return FVector(loc.X + 1500.f, this->GetActorLocation().Y, this->GetActorLocation().Z);
 }
 
 // Update new rotation for Spawn Collider depending on which direction player is heading
