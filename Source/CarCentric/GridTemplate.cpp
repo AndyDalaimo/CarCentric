@@ -41,19 +41,32 @@ AGridTemplate::AGridTemplate()
 }
 
 
-/*AGridTemplate::~AGridTemplate()
+AGridTemplate::~AGridTemplate()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Grid Destroyed");
-}*/
+
+	if (spawnVehicle->IsValidLowLevel() || spawnVehicle1->IsValidLowLevel() || spawnTimePowerup->IsValidLowLevel())
+	{
+		spawnVehicle->Destroy();
+		spawnVehicle1->Destroy();
+		spawnTimePowerup->Destroy();
+	}
+
+}
 
 // Called when the game starts or when spawned
 void AGridTemplate::BeginPlay()
 {
 	Super::BeginPlay();
-	// NOT THE RIGHT LOCATION
+
+	// Update location for new Grid/Powerup placements
 	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 600.f, this->GetActorLocation().Y, 0.f);
 	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + 1200.f, this->GetActorLocation().Y + 2000.f, 0.f);
+	Layout.PowerupPlacement = FVector(this->GetActorLocation().X + Layout.PowerupPlacement.X, this->GetActorLocation().Y + Layout.PowerupPlacement.Y, 0.f);
 	
+	// Spawn the Powerups onto map
+	spawnTimePowerup = Cast<ATimePowerup>(GetWorld()->SpawnActor<ATimePowerup>(powerupClass, Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
+	// spawnTimePowerup->SetLifeSpan(20.0f);
 
 	if (Layout.Direction == EGridDirection::FORWARD)
 	{
@@ -71,7 +84,6 @@ void AGridTemplate::BeginPlay()
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(vehicleClass, Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
 	}
-	
 }
 
 // Called every frame

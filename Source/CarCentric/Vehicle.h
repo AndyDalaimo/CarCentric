@@ -37,7 +37,7 @@ class CARCENTRIC_API AVehicle : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	int32 Damage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	float Speed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
@@ -61,8 +61,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Initialize new Vehicle
-	UFUNCTION()
-		void init();
+	UFUNCTION(BlueprintCallable)
+		void Init();
 
 	// Overlap Event When Player is hit by vehicle 
 	UFUNCTION()
@@ -82,6 +82,10 @@ protected:
 	// Set Vehicle Speed depending on vehicle type
 	// Speed used in Timer function for movement
 	float SetSpeed(EVehicleType type);
+
+	// Set Vehicle damage depending on vehicle type
+	// Damage used in Collision function to decrease Player HP
+	int32 SetDamage(EVehicleType type);
 
 private:
 

@@ -125,6 +125,12 @@ void UMyGameInstance::ExitHUDUIWidget()
 // Game Over screen. Prompt player to restart level or Quit game
 void UMyGameInstance::ShowGameOverUIWidget()
 {
+
+	if (GameTimer.IsValid()) {
+		GetTimerManager().ClearTimer(GameTimer);
+		ExitHUDUIWidget();
+	}
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, "Game Over UI");
 
 	// Create widget and add to screen

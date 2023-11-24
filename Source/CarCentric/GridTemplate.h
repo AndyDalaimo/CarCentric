@@ -61,12 +61,12 @@ public:
 	void init()
 	{
 		Direction = GrabRandomDirection();
-		// Direction = EGridDirection::FORWARD;
 		VehicleLocation_0 = FVector(25.f, 0.f, 0.f);
 		VehicleLocation_1 = FVector(75.f, 0.f, 0.f);
 		VehicleRotation_0 = FRotator(0, 180, 0);
 		VehicleRotation_1 = FRotator(0, 0, 0); 
-		PowerupPlacement = FVector(25.f, 50.f, 0.f);
+		// Set some random value here to place powerups
+		PowerupPlacement = FVector(FMath::RandRange(250.f, 1800.f), FMath::RandRange(100.f, 1800.f), 0.f);
 	}
 
 };
@@ -93,7 +93,7 @@ class CARCENTRIC_API AGridTemplate : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGridTemplate();
-	// ~AGridTemplate();
+	~AGridTemplate();
 
 protected:
 	// Called when the game starts or when spawned

@@ -29,7 +29,7 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
-	if (OtherActor && (OtherActor != this) && OtherComp)
+	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Time Powerup Collected"));
 		UpdateGameInstanceTimer();
@@ -44,11 +44,21 @@ void ATimePowerup::UpdateGameInstanceTimer_Implementation()
 }
 
 // Called when the game starts or when spawned
-/*void ATimePowerup::BeginPlay()
+void ATimePowerup::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}*/
+
+	// Life Span of Actor in World
+	this->SetLifeSpan(10.f);
+
+	// Set reference to Player
+	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+}
+
+// Set new Powerup Type
+void ATimePowerup::Init()
+{
+}
 
 // Called every frame
 /*void ATimePowerup::Tick(float DeltaTime)

@@ -32,10 +32,6 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
 
-	// Initialize the type of vehicle
-	init();
-	UE_LOG(LogTemp, Warning, TEXT("New Vehicle Type: %d"), Type);
-
 }
 
 // Vehicle Destructor 
@@ -57,9 +53,14 @@ void AVehicle::BeginPlay()
 
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	
+
+	// Initialize the type of vehicle
+	Init();
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
+
+	// Set Damage for Vehicle Collision
+	Damage = SetDamage(Type);
 
 	// Set Current location at beginning of SplinePath
 	currentLocation = VehiclePath->GetLocationAtSplinePoint(0, ESplineCoordinateSpace::World);
@@ -72,9 +73,9 @@ void AVehicle::BeginPlay()
 }
 
 // Initialize new vehicle
-void AVehicle::init()
+void AVehicle::Init()
 {
-	int x = rand() % 3;
+	uint8 x = FMath::RandRange(0, 3);
 	switch (x)
 	{
 	case 0 : 
@@ -83,6 +84,8 @@ void AVehicle::init()
 		Type = EVehicleType::COMPACT;
 	case 2 :
 		Type = EVehicleType::TRUCK;
+	default: 
+		Type = EVehicleType::COMPACT;
 	}
 }
 
@@ -108,11 +111,13 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 {
 	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Hit By Vehicle"));
+		UE_LOG(LogTemp, Warning, TEXT("Player hit by Vehicle Type: %d Speed: %f"), Type, Speed);
 		DamagePlayer(Damage);
 		GetWorld()->GetTimerManager().ClearTimer(MovementHandler);
 	}
 }
+
+
 
 // Event Called when Player collides with vehicle
 // Called in BP_Vehicle, Subtract damageAmount from Player HP
@@ -129,11 +134,27 @@ float AVehicle::SetSpeed(EVehicleType type)
 		case EVehicleType::DEFAULT :
 			return 1.0f;
 		case EVehicleType::COMPACT :
-			return .08f;
-		case EVehicleType::TRUCK : 
 			return .05f;
+		case EVehicleType::TRUCK : 
+			return .02f;
 		default :
 			return 0.0f;
+	}
+}
+
+// Set damage for collision event with player
+int32 AVehicle::SetDamage(EVehicleType type)
+{
+	switch (type)
+	{
+	case EVehicleType::DEFAULT:
+		return 5;
+	case EVehicleType::COMPACT:
+		return 15;
+	case EVehicleType::TRUCK:
+		return 30;
+	default:
+		return 0;
 	}
 }
 
