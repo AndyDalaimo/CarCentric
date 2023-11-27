@@ -15,4 +15,4 @@ are currently implemented.
 
 This project us currently in progress with a deadline for submission on 02/17/2024. 
 
-Link to DevLog for project - andrewdalaimo.nuacomputerscience.co.uk/blog/
+Address to DevLog for project - andrewdalaimo.nuacomputerscience.co.uk/blog/
