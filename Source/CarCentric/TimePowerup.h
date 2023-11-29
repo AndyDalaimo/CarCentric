@@ -11,7 +11,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "UObject/ConstructorHelpers.h"
 #include "CarCentricCharacter.h"
+#include "MyGameInstance.h"
 #include "Components/BoxComponent.h"
 #include "TimePowerup.generated.h"
 
@@ -62,6 +64,9 @@ public:
 	// virtual void Tick(float DeltaTime) override;
 
 private:
+	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
 
+	// Reference to Game Instance (For Updating timer)
+	UMyGameInstance* GameInstanceRef;
 };

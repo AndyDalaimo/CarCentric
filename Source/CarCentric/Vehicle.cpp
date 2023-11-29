@@ -32,6 +32,9 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
 
+	// Initialize the type of vehicle
+	Type = TypeInit();
+
 }
 
 // Vehicle Destructor 
@@ -53,11 +56,10 @@ void AVehicle::BeginPlay()
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	// Initialize the type of vehicle
-	Init();
-
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
+
+	UE_LOG(LogTemp, Warning, TEXT("New Vehicle Type and speed: %d and %f"), Type, Speed);
 
 	// Set Damage for Vehicle Collision
 	Damage = SetDamage(Type);
@@ -70,23 +72,6 @@ void AVehicle::BeginPlay()
 	MovementDelegate.BindUFunction(this, "MovementTimer");
 	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true);
 
-}
-
-// Initialize new vehicle
-void AVehicle::Init()
-{
-	uint8 x = FMath::RandRange(0, 3);
-	switch (x)
-	{
-	case 0 : 
-		Type = EVehicleType::DEFAULT;
-	case 1 :
-		Type = EVehicleType::COMPACT;
-	case 2 :
-		Type = EVehicleType::TRUCK;
-	default: 
-		Type = EVehicleType::COMPACT;
-	}
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -109,7 +94,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep, const 
 	FHitResult& SweepResult)
 {
-	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
+	if ((OtherActor == PlayerRef) && OtherComp)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player hit by Vehicle Type: %d Speed: %f"), Type, Speed);
 		DamagePlayer(Damage);
@@ -126,17 +111,34 @@ void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
 	UE_LOG(LogTemp, Warning, TEXT("Player took %d Damage"), damageAmount);
 }
 
+// Initialize new vehicle
+EVehicleType AVehicle::TypeInit()
+{
+	int i = FMath::RandRange(0, 2);
+	switch (i)
+	{
+	case 0:
+		return EVehicleType::DEFAULT;
+	case 1:
+		return EVehicleType::COMPACT;
+	case 2:
+		return EVehicleType::TRUCK;
+	}
+
+	return EVehicleType::DEFAULT;
+}
+
 // Set Speed of Vehicle to be used in movement Timer
 float AVehicle::SetSpeed(EVehicleType type)
 {
 	switch (type)
 	{
 		case EVehicleType::DEFAULT :
-			return 1.0f;
+			return .08f;
 		case EVehicleType::COMPACT :
 			return .05f;
 		case EVehicleType::TRUCK : 
-			return .02f;
+			return .015f;
 		default :
 			return 0.0f;
 	}

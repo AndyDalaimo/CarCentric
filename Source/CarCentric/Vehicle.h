@@ -62,7 +62,7 @@ protected:
 
 	// Initialize new Vehicle
 	UFUNCTION(BlueprintCallable)
-		void Init();
+		EVehicleType TypeInit();
 
 	// Overlap Event When Player is hit by vehicle 
 	UFUNCTION()

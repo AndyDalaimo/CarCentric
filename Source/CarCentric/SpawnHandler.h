@@ -17,12 +17,9 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 	// Box Collision at top of grid
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = SpawnCollider, meta = (AllowPrivateAccess = "true"))
 		class UBoxComponent* SpawnCollider;
-	
 
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
-
-
 
 	// Grid Spawn Properties 
 	FRotator Rotation;
