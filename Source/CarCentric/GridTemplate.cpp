@@ -29,7 +29,6 @@ AGridTemplate::AGridTemplate()
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_Cube.SM_Cube"));
 	UStaticMesh* Cube = MeshAsset.Object;
 
-	Layout.init();
 
 	// Set up Grid Mesh
 	GridMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GridMesh"));
@@ -58,8 +57,12 @@ void AGridTemplate::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// initialize new Grid
-	// Init();
+	// Set Reference to Player
+	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	// initialize new Grid Layout
+	Layout.init(PlayerRef->GetCurrentDirection());
+
 }
 
 // Initialize new grid tempalte to spawn. 
@@ -111,9 +114,40 @@ FGridLayout::FGridLayout()
 
 }
 
-EGridDirection FGridLayout::GrabRandomDirection()
+// Grab the next direcrion to spawn in grid
+// If previouos direction was right, or left, prevent spawning a grid
+// behind player
+EGridDirection FGridLayout::GrabRandomDirection(uint8 direction)
 {
-	int i = rand() % 5;
+	UE_LOG(LogTemp, Warning, TEXT("Current Player Direction: %d"), direction);
+
+	if (direction == 1)
+	{
+		int i = FMath::RandRange(0, 1);
+		switch (i)
+		{
+		case 0:
+			return EGridDirection::FORWARD;
+		case 1:
+			return EGridDirection::RIGHT;
+		}
+
+	}
+	
+	if (direction == 2)
+	{
+		int i = FMath::RandRange(0, 1);
+		switch (i)
+		{
+		case 0:
+			return EGridDirection::FORWARD;
+		case 1:
+			return EGridDirection::LEFT;
+		}
+
+	}
+
+	int i = FMath::RandRange(0, 2);
 	
 	switch (i)
 	{

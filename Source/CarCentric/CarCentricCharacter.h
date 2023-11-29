@@ -44,6 +44,9 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
 	int32 HP;
 
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
+	uint8 currentDirection;
+
 
 
 public:
@@ -71,6 +74,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	void SetCurrentDirection(uint8 dir);
+	uint8 GetCurrentDirection();
 
 };
 

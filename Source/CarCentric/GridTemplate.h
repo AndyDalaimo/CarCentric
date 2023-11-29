@@ -9,6 +9,7 @@
 #include "GameFramework/Actor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Vehicle.h"
+#include "CarCentricCharacter.h"
 #include "TimePowerup.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
@@ -51,16 +52,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grid Properties")
 	FVector PowerupPlacement;
 
-	EGridDirection GrabRandomDirection();
+	EGridDirection GrabRandomDirection(uint8 direction);
 
 private:
 	
 
 public:
 	// Default Values
-	void init()
+	void init(uint8 currentDirection)
 	{
-		Direction = GrabRandomDirection();
+		Direction = GrabRandomDirection(currentDirection);
 		VehicleLocation_0 = FVector(25.f, 0.f, 0.f);
 		VehicleLocation_1 = FVector(75.f, 0.f, 0.f);
 		VehicleRotation_0 = FRotator(0, 180, 0);
@@ -87,6 +88,9 @@ class CARCENTRIC_API AGridTemplate : public AActor
 
 	UPROPERTY()
 	ATimePowerup* spawnTimePowerup;
+
+	UPROPERTY()
+	ACarCentricCharacter* PlayerRef;
 
 
 	

@@ -37,7 +37,7 @@ void ASpawnHandler::BeginPlay()
 // Collider will move in position onto new Grid Template
 void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
+	if ((OtherActor == PlayerRef) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 
@@ -62,6 +62,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		tempLoc = ActiveGrids[0]->GetActorLocation();
 		
 		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
+
 		// Initialize new Grid
 		NewGrid->Init();
 
@@ -71,8 +72,10 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		
 		// Add Newly spawned grid to beginning of vector
 		ActiveGrids.Insert(NewGrid, 0);
-	
 
+		// Set Players current direction
+		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[0]->Layout.Direction);
+	
 		// Delete useless grid actors
 		DeleteGrid();
 

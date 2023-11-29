@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // ACarCentricCharacter
 
-ACarCentricCharacter::ACarCentricCharacter() : HP(50)
+ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -65,6 +65,8 @@ void ACarCentricCharacter::BeginPlay()
 		}
 	}
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -136,5 +138,20 @@ void ACarCentricCharacter::Move(const FInputActionValue& Value)
 }*/
 
 
+//////////////////////////////////////////////////////////////////////////
+// Spawn generation attributes
 
+
+// Set the current direction that the player is traveling.
+// If player is traveling right, grid cannot spawn to the left
+// and vice-a-versa. This avoids back tracking.
+void ACarCentricCharacter::SetCurrentDirection(uint8 dir)
+{
+	currentDirection = dir;
+}
+
+uint8 ACarCentricCharacter::GetCurrentDirection()
+{
+	return currentDirection;
+}
 
