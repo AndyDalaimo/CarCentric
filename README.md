@@ -13,6 +13,6 @@ on this direction (ex. Forward - 0, Left - 1, Right - 2).
 Different powerups and vehicle types are still being added and built on top of the procedural generation features that
 are currently implemented. 
 
-This project us currently in progress with a deadline for submission on 02/17/2024. 
+This project is currently in progress with a deadline for submission on 02/17/2024. 
 
 Address to DevLog for project - andrewdalaimo.nuacomputerscience.co.uk/blog/
