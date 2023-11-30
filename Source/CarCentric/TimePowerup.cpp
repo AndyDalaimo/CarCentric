@@ -5,7 +5,7 @@
 #include "Engine/World.h"
 
 // Sets default values
-ATimePowerup::ATimePowerup() : timeIncrease(5)
+ATimePowerup::ATimePowerup() : timeIncrease(3)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -63,8 +63,8 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 {
 	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Time Powerup Collected"));
-		GameInstanceRef->TimePowerupCollect();
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Large Time Powerup Collected"));
+		GameInstanceRef->TimePowerupCollect(timeIncrease);
 		// UpdateGameInstanceTimer();
 		Destroy();
 	}

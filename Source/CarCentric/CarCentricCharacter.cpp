@@ -168,3 +168,10 @@ void ACarCentricCharacter::PlayerDamaged(int32 damage)
 	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
 }
 
+// Health pickups in world will heal player 
+// If HP at max (No Effect)
+void ACarCentricCharacter::PlayerHealed(int32 heal)
+{
+	HP += heal;
+}
+

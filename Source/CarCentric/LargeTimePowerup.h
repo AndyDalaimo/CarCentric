@@ -53,4 +53,7 @@ private:
 	// Amount to increase timer in Game Instance
 	int32 timeIncrease;
 
+	// Amount to damage Player 
+	int32 damage;
+
 };

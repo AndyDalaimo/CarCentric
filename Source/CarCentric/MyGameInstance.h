@@ -41,7 +41,7 @@ public:
 
 	// Player Collected time powerup in game world
 	UFUNCTION(BlueprintCallable)
-	void TimePowerupCollect();
+	void TimePowerupCollect(int32 increase);
 
 	// In Game Timer shown on HUD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

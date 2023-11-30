@@ -4,7 +4,7 @@
 #include "LargeTimePowerup.h"
 
 // Sets default values
-ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(8)
+ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(2)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,7 +20,7 @@ ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(8)
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(PowerupMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
-	BoxCollider->AddRelativeLocation(FVector(50, 50, 40));
+	// BoxCollider->AddRelativeLocation(FVector(50, 50, 40));
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ALargeTimePowerup::CollectPowerup);
 
 }
@@ -31,7 +31,7 @@ void ALargeTimePowerup::BeginPlay()
 	Super::BeginPlay();
 
 	// Life Span of Actor in World
-	this->SetLifeSpan(10.f);
+	this->SetLifeSpan(7.f);
 
 	// Set reference to Player
 	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
@@ -51,7 +51,8 @@ void ALargeTimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Time Powerup Collected"));
-		GameInstanceRef->TimePowerupCollect();
+		GameInstanceRef->TimePowerupCollect(timeIncrease);
+		PlayerRef->PlayerDamaged(damage);
 		// UpdateGameInstanceTimer();
 		Destroy();
 	}

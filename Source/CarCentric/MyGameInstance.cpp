@@ -85,9 +85,9 @@ void UMyGameInstance::TimerFunction()
 
 // Function Called from BP_TimePowerup. Before destroying actor, totalTime 
 // will increase and add time to in game timer 
-void UMyGameInstance::TimePowerupCollect()
+void UMyGameInstance::TimePowerupCollect(int32 timeIncrease)
 {
-	totalTime += 3;
+	totalTime += timeIncrease;
 }
 
 // Add Timer to Player screen. 

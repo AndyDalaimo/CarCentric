@@ -1,12 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-/*
-	Two different clock types?? 
-
-	One is a simple timer increase (5 Sec currently)
-
-	Other is a Large timer increase, while damaging the player health 
-	(Think of something satirical here)
-*/
 #pragma once
 
 #include "CoreMinimal.h"

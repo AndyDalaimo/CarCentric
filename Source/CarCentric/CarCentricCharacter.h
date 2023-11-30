@@ -89,7 +89,10 @@ public:
 	// dependant on Vehicle Type.
 
 	UFUNCTION()
-		void PlayerDamaged(int32 damage);
+	void PlayerDamaged(int32 damage);
+
+	UFUNCTION()
+	void PlayerHealed(int32 heal);
 
 };
 
