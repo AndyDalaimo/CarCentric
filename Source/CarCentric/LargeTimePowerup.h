@@ -1,61 +1,47 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-/*
-	Two different clock types?? 
 
-	One is a simple timer increase (5 Sec currently)
-
-	Other is a Large timer increase, while damaging the player health 
-	(Think of something satirical here)
-*/
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "UObject/ConstructorHelpers.h"
 #include "CarCentricCharacter.h"
 #include "MyGameInstance.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Components/BoxComponent.h"
-#include "TimePowerup.generated.h"
-
+#include "LargeTimePowerup.generated.h"
 
 UCLASS()
-class CARCENTRIC_API ATimePowerup : public AActor
+class CARCENTRIC_API ALargeTimePowerup : public AActor
 {
 	GENERATED_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* ClockMesh;
+		class UStaticMeshComponent* PowerupMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
-	class UBoxComponent* BoxCollider;
-	
+		class UBoxComponent* BoxCollider;
+
 public:	
 	// Sets default values for this actor's properties
-	ATimePowerup();
+	ALargeTimePowerup();
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// Initialize Powerup Type
-	UFUNCTION()
-		void Init();
-
 	// Overlap Event when Player Collects powerup
 	UFUNCTION()
-	void CollectPowerup(UPrimitiveComponent* OverlappedComponent,
-		AActor* OtherActor,
-		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex,
-		bool bFromSweep,
-		const FHitResult& SweepResult);
-
-	UFUNCTION(BlueprintNativeEvent)
-	void UpdateGameInstanceTimer();
+		void CollectPowerup(UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex,
+			bool bFromSweep,
+			const FHitResult& SweepResult);
 
 public:	
 	// Called every frame
-	// virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime) override;
 
 private:
 	// Reference to Player
@@ -66,4 +52,5 @@ private:
 
 	// Amount to increase timer in Game Instance
 	int32 timeIncrease;
+
 };
