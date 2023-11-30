@@ -39,14 +39,14 @@ AGridTemplate::AGridTemplate()
 }
 
 
-AGridTemplate::~AGridTemplate()
+/*AGridTemplate::~AGridTemplate()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, "Grid Destroyed");
 
 	if (spawnVehicle->IsValidLowLevel()) spawnVehicle->Destroy(); 
 	if (spawnVehicle1->IsValidLowLevel()) spawnVehicle1->Destroy(); 
 	if (spawnTimePowerup->IsValidLowLevel()) spawnTimePowerup->Destroy();
-}
+}*/
 
 // Called when the game starts or when spawned
 void AGridTemplate::BeginPlay()

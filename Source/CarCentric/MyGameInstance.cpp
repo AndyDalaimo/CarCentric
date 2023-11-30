@@ -10,7 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 
 
-UMyGameInstance::UMyGameInstance(const FObjectInitializer& ObjectInitializer)
+UMyGameInstance::UMyGameInstance(const FObjectInitializer& ObjectInitializer) : totalTime(10)
 {
 
 	static ConstructorHelpers::FClassFinder<UUserWidget> HUDFinder(TEXT("/Script/Engine.UserWidget'/Game/UI/WBP_HUD'"));

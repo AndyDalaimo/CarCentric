@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "MyGameInstance.h"
 #include "InputActionValue.h"
 #include "CarCentricCharacter.generated.h"
 
@@ -69,14 +70,26 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
+private: 
+	
+	// Reference to Game Instance
+	UMyGameInstance* GameInstanceRef;
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	// Getter and Setter for the Current direction of player movement along level
 	void SetCurrentDirection(uint8 dir);
 	uint8 GetCurrentDirection();
+
+	// Called in Vehicle on damage player. Take indicated amount of damage, 
+	// dependant on Vehicle Type.
+
+	UFUNCTION()
+		void PlayerDamaged(int32 damage);
 
 };
 

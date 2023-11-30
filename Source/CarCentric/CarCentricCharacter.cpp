@@ -56,6 +56,9 @@ void ACarCentricCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	// Set reference to Game Instance
+	GameInstanceRef = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+
 	//Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -150,8 +153,18 @@ void ACarCentricCharacter::SetCurrentDirection(uint8 dir)
 	currentDirection = dir;
 }
 
+// Get current direcrion Player is traveling in level
 uint8 ACarCentricCharacter::GetCurrentDirection()
 {
 	return currentDirection;
+}
+
+// Damage taken from Vehicle. Amoutn dependant on vehicle type. 
+// If HP <= 0, call Game Over in Game Instance
+void ACarCentricCharacter::PlayerDamaged(int32 damage)
+{
+	HP -= damage;
+
+	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
 }
 

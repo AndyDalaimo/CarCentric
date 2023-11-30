@@ -24,6 +24,8 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	BoxCollider->SetBoxExtent(FVector(25, 52, 32), true);
+	BoxCollider->SetHiddenInGame(false);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::DamagePlayerOnCollision);
 
 	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
@@ -50,7 +52,7 @@ void AVehicle::BeginPlay()
 
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 	// Life span of Actor Currently Set
-	this->SetLifeSpan(10.f);
+	this->SetLifeSpan(7.f);
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 
 	// Set Reference to Player
@@ -97,8 +99,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 	if ((OtherActor == PlayerRef) && OtherComp)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Player hit by Vehicle Type: %d Speed: %f"), Type, Speed);
-		DamagePlayer(Damage);
-		GetWorld()->GetTimerManager().ClearTimer(MovementHandler);
+		PlayerRef->PlayerDamaged(Damage);
 	}
 }
 
@@ -109,6 +110,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player took %d Damage"), damageAmount);
+	
 }
 
 // Initialize new vehicle
