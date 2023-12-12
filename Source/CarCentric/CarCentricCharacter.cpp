@@ -47,6 +47,7 @@ ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0)
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -158,6 +159,9 @@ uint8 ACarCentricCharacter::GetCurrentDirection()
 {
 	return currentDirection;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// Player interaction with pickups
 
 // Damage taken from Vehicle. Amoutn dependant on vehicle type. 
 // If HP <= 0, call Game Over in Game Instance

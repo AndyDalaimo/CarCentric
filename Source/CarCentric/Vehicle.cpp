@@ -17,7 +17,8 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	UStaticMesh* Pipe = MeshAsset.Object;
 
 	CarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CarMesh"));
-	CarMesh->SetupAttachment(RootComponent);
+	SetRootComponent(CarMesh);
+	// CarMesh->SetupAttachment(RootComponent);
 	CarMesh->SetRelativeScale3D(FVector(2.5f, 2.5f, 2.5f));
 	CarMesh->SetStaticMesh(Pipe);
 	CarMesh->SetGenerateOverlapEvents(false);
