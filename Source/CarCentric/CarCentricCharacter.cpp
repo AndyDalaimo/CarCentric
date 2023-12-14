@@ -179,3 +179,8 @@ void ACarCentricCharacter::PlayerHealed(int32 heal)
 	HP += heal;
 }
 
+// Called on any powerup. Will add to values appropriately 
+void ACarCentricCharacter::CollectPowerup(int32 damage, int32 heal)
+{
+}
+

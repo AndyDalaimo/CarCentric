@@ -11,6 +11,8 @@
 #include "Vehicle.h"
 #include "CarCentricCharacter.h"
 #include "TimePowerup.h"
+#include "LargeTimePowerup.h"
+#include "HealthPowerup.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
 #include "GridTemplate.generated.h"
@@ -54,9 +56,6 @@ public:
 
 	EGridDirection GrabRandomDirection(uint8 direction);
 
-private:
-	
-
 public:
 	// Default Values
 	void init(uint8 currentDirection)
@@ -90,6 +89,12 @@ class CARCENTRIC_API AGridTemplate : public AActor
 	ATimePowerup* spawnTimePowerup;
 
 	UPROPERTY()
+	ALargeTimePowerup* spawnLargeTimePowerup;
+
+	UPROPERTY()
+	AHealthPowerup* spawnHealthPowerup;
+
+	UPROPERTY()
 	ACarCentricCharacter* PlayerRef;
 
 
@@ -111,6 +116,10 @@ public:
 	// Initialize new grid tempalte to spawn. Will spawn vehicles and powerups
 	UFUNCTION()
 	void Init();
+
+	// Choose a powerup to spawn onto the grid
+	UFUNCTION()
+	void SpawnPowerup();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
 	FGridLayout Layout;

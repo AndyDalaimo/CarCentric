@@ -94,5 +94,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlayerHealed(int32 heal);
 
+	UFUNCTION(BlueprintCallable)
+		void CollectPowerup(int32 damage, int32 heal);
+
 };
 
