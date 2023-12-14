@@ -128,7 +128,4 @@ public:
 private:
 	FActorSpawnParameters SpawnInfo;
 
-	// Classes of Actors to spawn in
-	// TSubclassOf<class AVehicle> vehicleClass;
-	// TSubclassOf<class ATimePowerup> powerupClass;
 };

@@ -30,7 +30,7 @@ void ASpawnHandler::BeginPlay()
 }
 
 // ---------------------------------------------------------------------------------------------------------------
-// ------------------ TODO: Call helper functions to change properties of Grid spawned ---------------------------
+// -------------------------------------- Grid Spawning / Generation ---------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // Spawn a new Grid template when plaeyr passes spawn collider. Move Collider to Further position on Grid
 // tempLoc will take previous Grid Template and add the size of grid to vector to place new Grid in line
