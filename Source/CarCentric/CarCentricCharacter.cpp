@@ -176,7 +176,7 @@ void ACarCentricCharacter::PlayerDamaged(int32 damage)
 // If HP at max (No Effect)
 void ACarCentricCharacter::PlayerHealed(int32 heal)
 {
-	HP += heal;
+	if (HP < 50) HP += heal;
 }
 
 // Called on any powerup. Will add to values appropriately 

@@ -4,7 +4,7 @@
 #include "LargeTimePowerup.h"
 
 // Sets default values
-ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
+ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(7), damage(5)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -16,12 +16,14 @@ ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
 	PowerupMesh->SetupAttachment(RootComponent);
 	PowerupMesh->SetStaticMesh(Cube);
 	PowerupMesh->SetWorldScale3D(FVector3d(.75f, .75f, .5f));
+	PowerupMesh->bApplyImpulseOnDamage = false;
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(PowerupMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
 	// BoxCollider->AddRelativeLocation(FVector(50, 50, 40));
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ALargeTimePowerup::CollectPowerup);
+	BoxCollider->bApplyImpulseOnDamage = false;
 
 }
 

@@ -97,5 +97,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void CollectPowerup(int32 damage, int32 heal);
 
+
 };
 

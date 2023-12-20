@@ -75,7 +75,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 
 		// Set Players current direction
 		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[0]->Layout.Direction);
-	
+
 		// Delete useless grid actors
 		DeleteGrid();
 

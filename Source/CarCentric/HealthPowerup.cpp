@@ -16,12 +16,14 @@ AHealthPowerup::AHealthPowerup() : HP(5)
 	SetRootComponent(HeartMesh);
 	HeartMesh->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
 	HeartMesh->SetStaticMesh(Cone);
+	HeartMesh->bApplyImpulseOnDamage = false;
 	// HeartMesh->SetGenerateOverlapEvents(true);
 	// HeartMesh->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(HeartMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
+	BoxCollider->bApplyImpulseOnDamage = false;
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AHealthPowerup::CollectHealthPowerup);
 
 }

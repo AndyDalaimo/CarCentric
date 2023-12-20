@@ -5,7 +5,7 @@
 #include "Engine/World.h"
 
 // Sets default values
-ATimePowerup::ATimePowerup() : timeIncrease(3)
+ATimePowerup::ATimePowerup() : timeIncrease(4)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -16,6 +16,7 @@ ATimePowerup::ATimePowerup() : timeIncrease(3)
 	ClockMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ClockMesh"));
 	ClockMesh->SetupAttachment(RootComponent);
 	ClockMesh->SetStaticMesh(Cube);
+	ClockMesh->bApplyImpulseOnDamage = false;
 	ClockMesh->SetWorldScale3D(FVector3d(.75f, .75f, .5f));
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
@@ -23,6 +24,7 @@ ATimePowerup::ATimePowerup() : timeIncrease(3)
 	// BoxCollider->SetWorldScale3D(FVector3d(2.f, 2.f, 2.f));
 	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
 	BoxCollider->AddRelativeLocation(FVector(50, 50, 40));
+	BoxCollider->bApplyImpulseOnDamage = false;
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ATimePowerup::CollectPowerup);
 }
 
