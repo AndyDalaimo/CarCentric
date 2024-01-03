@@ -25,8 +25,11 @@ class CARCENTRIC_API AVehicle : public AActor
 {
 	GENERATED_BODY()
 
+	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	// class UStaticMeshComponent* CarMesh;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* CarMesh;
+		class USkeletalMeshComponent* CarMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxCollider;

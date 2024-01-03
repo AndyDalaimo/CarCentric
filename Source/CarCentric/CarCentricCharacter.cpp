@@ -172,6 +172,15 @@ void ACarCentricCharacter::PlayerDamaged(int32 damage)
 	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
 }
 
+// Add Small impulse to player when hit by a vehicle
+void ACarCentricCharacter::PlayerHitByVehicle()
+{
+	if (GetCharacterMovement()->IsMovingOnGround())
+		GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -10000, true);
+	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -2500, true);
+	
+}
+
 // Health pickups in world will heal player 
 // If HP at max (No Effect)
 void ACarCentricCharacter::PlayerHealed(int32 heal)

@@ -44,7 +44,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		// Will Only be called once. First grid Spawned into Level
 		if (ActiveGrids.Num() == 0)
 		{
-			tempLoc = FVector(0.0f, 0.0f, -50.f);
+			tempLoc = FVector(1200.0f, 1200.0f, -20.f);
 			NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
 			NewGrid->Layout.Direction = EGridDirection::FORWARD;
 			// Initialize new Grid
@@ -90,11 +90,14 @@ FVector ASpawnHandler::UpdateGridSpawnLocation(uint8 direction)
 	switch (direction)
 	{
 	case 0 : 
-		return FVector(((float)tempLoc.X + 1500.f), tempLoc.Y, -50.f);
+		// return FVector(((float)tempLoc.X + 1500.f), tempLoc.Y, -50.f);
+		return FVector(((float)tempLoc.X + 1440.f), tempLoc.Y, -20.f);
 	case 1 : 
-		return FVector(((float)tempLoc.X), tempLoc.Y + 1500.0f, -50.f);
+		// return FVector(((float)tempLoc.X), tempLoc.Y + 1500.0f, -50.f);
+		return FVector(((float)tempLoc.X), tempLoc.Y + 1440.0f, -20.f);
 	case 2 :
-		return FVector(((float)tempLoc.X), tempLoc.Y - 1500.0f, -50.f);
+		// return FVector(((float)tempLoc.X), tempLoc.Y - 1500.0f, -50.f);
+		return FVector(((float)tempLoc.X), tempLoc.Y - 1440.0f, -20.f);
 	}
 
 	return FVector();
@@ -107,11 +110,14 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 	switch (direction)
 	{
 		case 0 :
-			return FVector(loc.X + 1500.f, tempLoc.Y + 750.f, this->GetActorLocation().Z);
+			// return FVector(loc.X + 1500.f, tempLoc.Y + 750.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 500.f, tempLoc.Y, this->GetActorLocation().Z);
 		case 1 : 
-			return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
+			// return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 250.f, tempLoc.Y + 500.f, this->GetActorLocation().Z);
 		case 2 :
-			return FVector(loc.X + 750.f, tempLoc.Y, this->GetActorLocation().Z);
+			// return FVector(loc.X + 750.f, tempLoc.Y, this->GetActorLocation().Z);
+			return FVector(loc.X + 250.f, tempLoc.Y - 500.f, this->GetActorLocation().Z);
 	}
 
 	return FVector(loc.X + 1500.f, this->GetActorLocation().Y, this->GetActorLocation().Z);

@@ -63,10 +63,10 @@ public:
 		Direction = GrabRandomDirection(currentDirection);
 		VehicleLocation_0 = FVector(25.f, 0.f, 0.f);
 		VehicleLocation_1 = FVector(75.f, 0.f, 0.f);
-		VehicleRotation_0 = FRotator(0, 0, 0);
-		VehicleRotation_1 = FRotator(0, 180, 0); 
+		VehicleRotation_0 = FRotator(0, 90, 0);
+		VehicleRotation_1 = FRotator(0, 270, 0); 
 		// Set some random value here to place powerups
-		PowerupPlacement = FVector(FMath::RandRange(100.f, 900.f), FMath::RandRange(100.f, 900.f), 0.f);
+		PowerupPlacement = FVector(FMath::RandRange(-300.f, 300.f), FMath::RandRange(-300.f, 300.f), 0.f);
 	}
 
 };

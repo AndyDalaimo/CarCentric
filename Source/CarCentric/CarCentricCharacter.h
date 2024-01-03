@@ -91,6 +91,9 @@ public:
 	UFUNCTION()
 	void PlayerDamaged(int32 damage);
 
+	UFUNCTION()
+		void PlayerHitByVehicle();
+
 	UFUNCTION(BlueprintCallable)
 	void PlayerHealed(int32 heal);
 
