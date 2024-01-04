@@ -87,7 +87,7 @@ void AVehicle::BeginPlay()
 
 	// Start Movement timer
 	MovementDelegate.BindUFunction(this, "MovementTimer");
-	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true);
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true, .8f);
 
 }
 

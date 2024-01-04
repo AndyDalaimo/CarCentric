@@ -69,9 +69,6 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 		GameInstanceRef->TimePowerupCollect(timeIncrease);
 		// UpdateGameInstanceTimer();
 		Destroy();
-
-		// TESTING SPEED BOOST (WILL MOVE TO ITS OWN POWERUP)
-		PlayerRef->SpeedBoost(100.f);
 	}
 }
 
