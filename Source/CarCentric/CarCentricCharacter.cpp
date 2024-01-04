@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // ACarCentricCharacter
 
-ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0)
+ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0), MaxSpeed(1500.f), currentSpeed(750.f), baseSpeed(550.f), TimeIncrease(.2f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -32,7 +32,7 @@ ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0)
 	// instead of recompiling to adjust them
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	GetCharacterMovement()->MaxWalkSpeed = 750.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
@@ -161,7 +161,7 @@ uint8 ACarCentricCharacter::GetCurrentDirection()
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Player interaction with pickups
+// Player interaction with World Items (pickups / vehicles)
 
 // Damage taken from Vehicle. Amoutn dependant on vehicle type. 
 // If HP <= 0, call Game Over in Game Instance
@@ -172,13 +172,17 @@ void ACarCentricCharacter::PlayerDamaged(int32 damage)
 	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
 }
 
-// Add Small impulse to player when hit by a vehicle
+// Add Small impulse to player when hit by a vehicle. Reset currentSpeed to baseSpeed
 void ACarCentricCharacter::PlayerHitByVehicle()
 {
 	if (GetCharacterMovement()->IsMovingOnGround())
 		GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -10000, true);
 	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -2500, true);
 	
+	// currentSpeed = baseSpeed;
+	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
+	UE_LOG(LogTemp, Warning, TEXT("Player currentSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
 }
 
 // Health pickups in world will heal player 
@@ -188,8 +192,24 @@ void ACarCentricCharacter::PlayerHealed(int32 heal)
 	if (HP < 50) HP += heal;
 }
 
+// Increase Player's max walk speed on powerup collection
+void ACarCentricCharacter::SpeedBoost(float speedIncrease)
+{
+	float GlobalTime = UGameplayStatics::GetGlobalTimeDilation(GetWorld());
+
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), GlobalTime += TimeIncrease);
+	/*if (currentSpeed < MaxSpeed)
+	{
+		currentSpeed += speedIncrease;
+		GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
+		UE_LOG(LogTemp, Warning, TEXT("Player currentSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
+	}*/
+}
+
 // Called on any powerup. Will add to values appropriately 
 void ACarCentricCharacter::CollectPowerup(int32 damage, int32 heal)
 {
 }
+
+
 

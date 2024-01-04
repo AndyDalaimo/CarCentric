@@ -9,7 +9,7 @@ AGridTemplate::AGridTemplate()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/SimPoly_Town/Models/Road/SM_Road_02_A.SM_Road_02_A"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/SimPoly_Town/Models/Road/SM_Road_02_B.SM_Road_02_B"));
 	UStaticMesh* Road = MeshAsset.Object;
 
 
@@ -49,8 +49,8 @@ void AGridTemplate::BeginPlay()
 void AGridTemplate::Init()
 {
 	// Update location for new Grid/Powerup placements
-	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X - 400.f, this->GetActorLocation().Y - 400.f, 0.f);
-	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + 400.f, this->GetActorLocation().Y + 400.f, 0.f);
+	Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X - FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y - FMath::RandRange(40.f, 450.f), 0.f);
+	Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X + FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y + FMath::RandRange(40.f, 450.f), 0.f);
 	Layout.PowerupPlacement = FVector(this->GetActorLocation().X + Layout.PowerupPlacement.X, this->GetActorLocation().Y + Layout.PowerupPlacement.Y, 0.f);
 
 	// Spawn the Powerups onto map
@@ -67,8 +67,8 @@ void AGridTemplate::Init()
 
 		Layout.VehicleRotation_0 = FRotator(0, 180, 0);
 		Layout.VehicleRotation_1 = FRotator(0, 0, 0);
-		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + 400.f, this->GetActorLocation().Y + 400.f, 0.f);
-		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X - 400.f, this->GetActorLocation().Y - 400.f, 0.f);
+		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y + FMath::RandRange(40.f, 450.f), 0.f);
+		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X - FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y - FMath::RandRange(40.f, 450.f), 0.f);
 
 		
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));

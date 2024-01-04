@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "MyGameInstance.h"
 #include "InputActionValue.h"
+#include "Kismet/GameplayStatics.h"
 #include "CarCentricCharacter.generated.h"
 
 
@@ -45,10 +46,20 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
 	int32 HP;
 
-	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	uint8 currentDirection;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateAccess = "true"))
+	float MaxSpeed;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
+	float currentSpeed;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
+	float baseSpeed;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
+		float TimeIncrease;
 
 public:
 	ACarCentricCharacter();
@@ -92,14 +103,18 @@ public:
 	void PlayerDamaged(int32 damage);
 
 	UFUNCTION()
-		void PlayerHitByVehicle();
+	void PlayerHitByVehicle();
+
+	// Update Player properties depending on type of powerup collected in world
 
 	UFUNCTION(BlueprintCallable)
 	void PlayerHealed(int32 heal);
+	
+	UFUNCTION(BlueprintCallable)
+	void CollectPowerup(int32 damage, int32 heal);
 
 	UFUNCTION(BlueprintCallable)
-		void CollectPowerup(int32 damage, int32 heal);
-
+	void SpeedBoost(float speedIncrease);
 
 };
 

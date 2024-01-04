@@ -5,7 +5,7 @@
 #include "Engine/World.h"
 
 // Sets default values
-ATimePowerup::ATimePowerup() : timeIncrease(4)
+ATimePowerup::ATimePowerup() : timeIncrease(2)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -69,12 +69,14 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 		GameInstanceRef->TimePowerupCollect(timeIncrease);
 		// UpdateGameInstanceTimer();
 		Destroy();
+
+		// TESTING SPEED BOOST (WILL MOVE TO ITS OWN POWERUP)
+		PlayerRef->SpeedBoost(100.f);
 	}
 }
 
 // Blueprint Event To update in game timer
 void ATimePowerup::UpdateGameInstanceTimer_Implementation()
 {
-
 	UE_LOG(LogTemp, Warning, TEXT("Update Game Timer"));
 }
