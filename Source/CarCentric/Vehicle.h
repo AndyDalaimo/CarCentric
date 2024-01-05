@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/SplineComponent.h"
 #include "CarCentricCharacter.h"
+#include "SpeedBoostPowerup.h"
 #include <Kismet/GameplayStatics.h>
 #include "Vehicle.generated.h"
 
@@ -52,7 +53,8 @@ class CARCENTRIC_API AVehicle : public AActor
 	UPROPERTY()
 	FVector goalLocation;
 
-	 
+	UPROPERTY()
+	bool SpeedBoostActive;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -90,15 +92,27 @@ protected:
 	// Damage used in Collision function to decrease Player HP
 	int32 SetDamage(EVehicleType type);
 
+	// Return True if a speed boost is spawned, to update it's location along spline
+	bool CreateSpeedBoost();
+
 private:
 
 	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
 
+	// Reference to Speed Boost Powerup
+	ASpeedBoostPowerup* SpeedBoostRef;
+
+	FActorSpawnParameters SpawnInfo;
+
 	// Timer Properties
 	FTimerHandle MovementHandler;
 	FTimerDelegate MovementDelegate;
 	float MovementTime;
+
+	USkeletalMesh* SmallCar;
+	USkeletalMesh* MediumCar;
+	USkeletalMesh* LargeCar;
 
 	// Timer to call movement of Vehicle 
 	UFUNCTION()

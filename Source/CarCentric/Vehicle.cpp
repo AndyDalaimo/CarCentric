@@ -13,13 +13,13 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>SmallCarMeshAsset(TEXT("/Game/SimPoly_Town/Models/Car/SK_Car_01.SK_Car_01"));
-	USkeletalMesh* SmallCar = SmallCarMeshAsset.Object;
+	SmallCar = SmallCarMeshAsset.Object;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>MediumCarMeshAsset(TEXT("/Game/SimPoly_Town/Models/Car/SK_Car_02.SK_Car_02"));
-	USkeletalMesh* MediumCar = MediumCarMeshAsset.Object;
+	MediumCar = MediumCarMeshAsset.Object;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh>LargeCarMeshAsset(TEXT("/Game/SimPoly_Town/Models/Car/SK_Car_04.SK_Car_04"));
-	USkeletalMesh* LargeCar = LargeCarMeshAsset.Object;
+	LargeCar = LargeCarMeshAsset.Object;
 
 	CarMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CarMesh"));
 	SetRootComponent(CarMesh);
@@ -41,17 +41,6 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
 	VehiclePath->Mobility = EComponentMobility::Movable;
 	VehiclePath->SetVisibility(true);
 
-	// Initialize the type of vehicle
-	Type = TypeInit();
-	
-	if (Type == EVehicleType::DEFAULT) CarMesh->SetSkeletalMesh(SmallCar);
-	else if (Type == EVehicleType::COMPACT) CarMesh->SetSkeletalMesh(MediumCar);
-	else
-	{
-		CarMesh->SetSkeletalMesh(LargeCar);
-		BoxCollider->SetBoxExtent(FVector(200, 90, 300), true);
-
-	}
 }
 
 // Vehicle Destructor 
@@ -64,6 +53,22 @@ AVehicle::~AVehicle()
 void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// Initialize the type of vehicle
+	Type = TypeInit();
+
+	if (Type == EVehicleType::DEFAULT)
+	{
+		CarMesh->SetSkeletalMesh(SmallCar);
+		SpeedBoostActive = CreateSpeedBoost();
+	}
+	else if (Type == EVehicleType::COMPACT) CarMesh->SetSkeletalMesh(MediumCar);
+	else
+	{
+		CarMesh->SetSkeletalMesh(LargeCar);
+		BoxCollider->SetBoxExtent(FVector(200, 90, 300), true);
+
+	}
 
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 	// Life span of Actor Currently Set
@@ -87,7 +92,7 @@ void AVehicle::BeginPlay()
 
 	// Start Movement timer
 	MovementDelegate.BindUFunction(this, "MovementTimer");
-	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true, .8f);
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true, FMath::RandRange(0.1f, 1.5f));
 
 }
 
@@ -97,7 +102,7 @@ void AVehicle::MovementTimer(float movementSpeed)
 {
 	// Move Vehicle Along Spline
 	currentLocation = FMath::VInterpConstantTo(currentLocation, goalLocation, GetWorld()->GetTimerManager().GetTimerElapsed(MovementHandler), 200.f);
-	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);	
+	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);
 }
 
 // Collision Event when player is hit by Vehicle. 
@@ -139,6 +144,7 @@ EVehicleType AVehicle::TypeInit()
 		return EVehicleType::COMPACT;
 	case 2:
 		return EVehicleType::TRUCK;
+	default: break;
 	}
 
 	return EVehicleType::DEFAULT;
@@ -174,6 +180,20 @@ int32 AVehicle::SetDamage(EVehicleType type)
 	default:
 		return 0;
 	}
+}
+
+// Only Spawn speed boost powerup if Game Timer is above a certain threshold
+bool AVehicle::CreateSpeedBoost()
+{
+	//FActorSpawnParameters SpawnParams;
+	SpeedBoostRef = GetWorld()->SpawnActor<ASpeedBoostPowerup>(this->GetActorLocation(), this->GetActorRotation(), SpawnInfo);
+	// SpeedBoostRef->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	SpeedBoostRef->AttachToComponent(CarMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("BirdSocket"));
+	SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
+	// SpeedBoostRef->SetActorRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f).Quaternion(), FVector(0, 0, 200), FVector(1)));
+	return true;
+
+	// return false;
 }
 
 // Called every frame
