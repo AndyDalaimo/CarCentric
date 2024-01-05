@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // ACarCentricCharacter
 
-ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0), MaxSpeed(1500.f), currentSpeed(750.f), baseSpeed(550.f), TimeIncrease(.2f)
+ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0), GlobalTime(1.f), TimeIncrease(.2f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -32,7 +32,7 @@ ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0), MaxS
 	// instead of recompiling to adjust them
 	GetCharacterMovement()->JumpZVelocity = 700.f;
 	GetCharacterMovement()->AirControl = 0.35f;
-	GetCharacterMovement()->MaxWalkSpeed = 750.f;
+	GetCharacterMovement()->MaxWalkSpeed = 850.f;
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
@@ -182,7 +182,6 @@ void ACarCentricCharacter::PlayerHitByVehicle()
 	// currentSpeed = baseSpeed;
 	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
-	UE_LOG(LogTemp, Warning, TEXT("Player currentSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
 }
 
 // Health pickups in world will heal player 
@@ -193,17 +192,15 @@ void ACarCentricCharacter::PlayerHealed(int32 heal)
 }
 
 // Increase Player's max walk speed on powerup collection
-void ACarCentricCharacter::SpeedBoost(float speedIncrease)
+void ACarCentricCharacter::SpeedBoost()
 {
-	float GlobalTime = UGameplayStatics::GetGlobalTimeDilation(GetWorld());
+	GlobalTime = UGameplayStatics::GetGlobalTimeDilation(GetWorld());
 
-	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), GlobalTime += TimeIncrease);
-	/*if (currentSpeed < MaxSpeed)
-	{
-		currentSpeed += speedIncrease;
-		GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
-		UE_LOG(LogTemp, Warning, TEXT("Player currentSpeed: %f"), GetCharacterMovement()->MaxWalkSpeed);
-	}*/
+	if (GlobalTime < 2.f)
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), GlobalTime += TimeIncrease);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::SanitizeFloat(GlobalTime));
+	
 }
 
 // Called on any powerup. Will add to values appropriately 

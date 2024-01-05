@@ -7,6 +7,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/SplineComponent.h"
 #include "CarCentricCharacter.h"
+#include "MyGameInstance.h"
 #include "SpeedBoostPowerup.h"
 #include <Kismet/GameplayStatics.h>
 #include "Vehicle.generated.h"
@@ -100,6 +101,9 @@ private:
 	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
 
+	// Reference to Game Instance for in game timer
+	UMyGameInstance* GameInstanceRef;
+
 	// Reference to Speed Boost Powerup
 	ASpeedBoostPowerup* SpeedBoostRef;
 
@@ -110,6 +114,7 @@ private:
 	FTimerDelegate MovementDelegate;
 	float MovementTime;
 
+	// References to Meshes assigned to Root Component depending on Vehicle Type
 	USkeletalMesh* SmallCar;
 	USkeletalMesh* MediumCar;
 	USkeletalMesh* LargeCar;

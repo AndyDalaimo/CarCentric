@@ -12,8 +12,10 @@ ASpeedBoostPowerup::ASpeedBoostPowerup()
 	USkeletalMesh* Bird = BirdAsset.Object;
 
 	static ConstructorHelpers::FObjectFinder<UAnimationAsset>AnimAsset(TEXT("/Game/SimPoly_Town/Models/Bird/A_Bird.A_Bird"));
-	// static ConstructorHelpers::FClassFinder
 	UAnimationAsset* BirdAnim = AnimAsset.Object;
+
+	static ConstructorHelpers::FObjectFinder<UParticleSystem>ParticleFinder(TEXT("/Game/StarterContent/Particles/P_Explosion.P_Explosion"));
+	ParticleEffect = ParticleFinder.Object;
 
 	PowerupMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Bird"));
 	SetRootComponent(PowerupMesh);
@@ -34,9 +36,6 @@ void ASpeedBoostPowerup::BeginPlay()
 
 	this->SetLifeSpan(10.f);
 
-	// Reference to Game Instance
-	GameInstanceRef = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-
 	// Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
@@ -54,8 +53,9 @@ void ASpeedBoostPowerup::PowerupPlayerOnCollision(UPrimitiveComponent* Overlappe
 	if ((OtherActor == PlayerRef) && OtherComp)
 	{
 		// UE_LOG(LogTemp, Warning, TEXT("Player hit by Vehicle Type: %d Speed: %f"), Type, Speed);
-		PlayerRef->SpeedBoost(1.f);
+		PlayerRef->SpeedBoost();
 		PowerupMesh->SetHiddenInGame(true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleEffect, this->GetActorTransform());
 	}
 }
 

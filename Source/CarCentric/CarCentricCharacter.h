@@ -43,27 +43,22 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* TimerAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
-	int32 HP;
+	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	uint8 currentDirection;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateAccess = "true"))
-	float MaxSpeed;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
-	float currentSpeed;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
-	float baseSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
 		float TimeIncrease;
 
 public:
 	ACarCentricCharacter();
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
+	int32 HP;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
+	float GlobalTime;
 
 protected:
 
@@ -114,7 +109,7 @@ public:
 	void CollectPowerup(int32 damage, int32 heal);
 
 	UFUNCTION(BlueprintCallable)
-	void SpeedBoost(float speedIncrease);
+	void SpeedBoost();
 
 };
 

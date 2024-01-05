@@ -57,6 +57,12 @@ void AVehicle::BeginPlay()
 	// Initialize the type of vehicle
 	Type = TypeInit();
 
+	GameInstanceRef = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+
+	// Set Reference to Player
+	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+
 	if (Type == EVehicleType::DEFAULT)
 	{
 		CarMesh->SetSkeletalMesh(SmallCar);
@@ -74,9 +80,6 @@ void AVehicle::BeginPlay()
 	// Life span of Actor Currently Set
 	this->SetLifeSpan(7.f);
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
-
-	// Set Reference to Player
-	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	// Set Speed for Vehicle Movement
 	Speed = SetSpeed(Type);
@@ -185,13 +188,16 @@ int32 AVehicle::SetDamage(EVehicleType type)
 // Only Spawn speed boost powerup if Game Timer is above a certain threshold
 bool AVehicle::CreateSpeedBoost()
 {
-	//FActorSpawnParameters SpawnParams;
-	SpeedBoostRef = GetWorld()->SpawnActor<ASpeedBoostPowerup>(this->GetActorLocation(), this->GetActorRotation(), SpawnInfo);
-	// SpeedBoostRef->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
-	SpeedBoostRef->AttachToComponent(CarMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("BirdSocket"));
-	SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
-	// SpeedBoostRef->SetActorRelativeTransform(FTransform(FRotator(0.f, 0.f, 0.f).Quaternion(), FVector(0, 0, 200), FVector(1)));
-	return true;
+	// if the total time is above 10 and current GlobalTimeDilation is not at max, spawn a powerup for player, else return fale
+	if (GameInstanceRef->totalTime > 10 && PlayerRef->GlobalTime < 2.f)
+	{
+		SpeedBoostRef = GetWorld()->SpawnActor<ASpeedBoostPowerup>(this->GetActorLocation(), this->GetActorRotation(), SpawnInfo);
+		SpeedBoostRef->AttachToComponent(CarMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("BirdSocket"));
+		SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
+		return true;
+	}
+		
+	return false;
 
 	// return false;
 }

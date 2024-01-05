@@ -4,7 +4,7 @@
 #include "LargeTimePowerup.h"
 
 // Sets default values
-ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(4), damage(5)
+ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;

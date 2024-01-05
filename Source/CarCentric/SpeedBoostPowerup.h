@@ -6,7 +6,8 @@
 #include "Components/BoxComponent.h"
 #include "UObject/ConstructorHelpers.h"
 #include "CarCentricCharacter.h"
-#include "MyGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "GameFramework/Actor.h"
 #include "SpeedBoostPowerup.generated.h"
 
@@ -18,11 +19,11 @@ class CARCENTRIC_API ASpeedBoostPowerup : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	class USkeletalMeshComponent* PowerupMesh;
 
-	// UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation, meta = (AllowPrivateAccess = "true"))
-	// class USkeletalAnimationComponent* BirdAnimation;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxCollider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UParticleSystem* ParticleEffect;
 
 public:	
 	// Sets default values for this actor's properties
@@ -45,9 +46,6 @@ public:
 	// Called every frame
 	// virtual void Tick(float DeltaTime) override;
 private:
-
-	// Reference to Game Instance for in game timer
-	UMyGameInstance* GameInstanceRef;
 
 	// Reference to Player for collision and speed boost interaction
 	ACarCentricCharacter* PlayerRef;

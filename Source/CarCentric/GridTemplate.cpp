@@ -70,7 +70,6 @@ void AGridTemplate::Init()
 		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y + FMath::RandRange(40.f, 450.f), 0.f);
 		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X - FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y - FMath::RandRange(40.f, 450.f), 0.f);
 
-		
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
 	}
@@ -91,7 +90,8 @@ void AGridTemplate::SpawnPowerup()
 		spawnLargeTimePowerup = Cast<ALargeTimePowerup>(GetWorld()->SpawnActor<ALargeTimePowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		return;
 	case (2) :
-		spawnHealthPowerup = Cast<AHealthPowerup>(GetWorld()->SpawnActor<AHealthPowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
+		if (PlayerRef->HP < 40) spawnHealthPowerup = Cast<AHealthPowerup>(GetWorld()->SpawnActor<AHealthPowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
+		else spawnTimePowerup = Cast<ATimePowerup>(GetWorld()->SpawnActor<ATimePowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		return;
 	}
 }
