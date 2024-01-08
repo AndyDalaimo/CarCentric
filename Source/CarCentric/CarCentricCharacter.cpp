@@ -182,6 +182,7 @@ void ACarCentricCharacter::PlayerHitByVehicle()
 	// currentSpeed = baseSpeed;
 	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
+	GlobalTime = 1.0f;
 }
 
 // Health pickups in world will heal player 
