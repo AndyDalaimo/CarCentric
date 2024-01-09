@@ -111,13 +111,13 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 	{
 		case 0 :
 			// return FVector(loc.X + 1500.f, tempLoc.Y + 750.f, this->GetActorLocation().Z);
-			return FVector(loc.X + 500.f, tempLoc.Y, this->GetActorLocation().Z);
+			return FVector(loc.X + 900.f, tempLoc.Y, this->GetActorLocation().Z);
 		case 1 : 
 			// return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
-			return FVector(loc.X + 250.f, tempLoc.Y + 500.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 250.f, tempLoc.Y + 700.f, this->GetActorLocation().Z);
 		case 2 :
 			// return FVector(loc.X + 750.f, tempLoc.Y, this->GetActorLocation().Z);
-			return FVector(loc.X + 250.f, tempLoc.Y - 500.f, this->GetActorLocation().Z);
+			return FVector(loc.X + 250.f, tempLoc.Y - 700.f, this->GetActorLocation().Z);
 	}
 
 	return FVector(loc.X + 1500.f, this->GetActorLocation().Y, this->GetActorLocation().Z);

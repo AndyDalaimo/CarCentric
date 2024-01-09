@@ -117,14 +117,16 @@ void ACarCentricCharacter::Move(const FInputActionValue& Value)
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 		// add movement 
-		if (MovementVector.X == 0)
+		/*if (MovementVector.X == 0)
 		{
 			AddMovementInput(ForwardDirection, MovementVector.Y);
 		}
 		else if (MovementVector.Y == 0)
 		{
 			AddMovementInput(RightDirection, MovementVector.X);
-		}
+		}*/
+		AddMovementInput(ForwardDirection, MovementVector.Y);
+		AddMovementInput(RightDirection, MovementVector.X);
 	}
 }
 

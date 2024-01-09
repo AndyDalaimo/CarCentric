@@ -39,14 +39,14 @@ class CARCENTRIC_API AVehicle : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
 	class USplineComponent* VehiclePath;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
+		EVehicleType Type;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	int32 Damage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	float Speed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
-	EVehicleType Type;
 
 	UPROPERTY()
 	FVector currentLocation;
@@ -54,13 +54,17 @@ class CARCENTRIC_API AVehicle : public AActor
 	UPROPERTY()
 	FVector goalLocation;
 
-	UPROPERTY()
-	bool SpeedBoostActive;
-	
 public:	
 	// Sets default values for this actor's properties
 	AVehicle();
 	~AVehicle() override;
+
+	UPROPERTY()
+		bool SpeedBoostActive;
+
+	// Reference to Speed Boost Powerup
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
+		ASpeedBoostPowerup* SpeedBoostRef;
 
 protected:
 	// Called when the game starts or when spawned
@@ -103,9 +107,6 @@ private:
 
 	// Reference to Game Instance for in game timer
 	UMyGameInstance* GameInstanceRef;
-
-	// Reference to Speed Boost Powerup
-	ASpeedBoostPowerup* SpeedBoostRef;
 
 	FActorSpawnParameters SpawnInfo;
 

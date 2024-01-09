@@ -7,7 +7,7 @@
 
 
 // Sets default values
-AVehicle::AVehicle() : Damage(5), MovementTime(1.f)
+AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -122,6 +122,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 		UE_LOG(LogTemp, Warning, TEXT("Player hit by Vehicle Type: %d Speed: %f"), Type, Speed);
 		PlayerRef->PlayerHitByVehicle();
 		PlayerRef->PlayerDamaged(Damage);
+		MovementHandler.Invalidate();
 	}
 }
 
@@ -189,17 +190,16 @@ int32 AVehicle::SetDamage(EVehicleType type)
 bool AVehicle::CreateSpeedBoost()
 {
 	// if the total time is above 10 and current GlobalTimeDilation is not at max, spawn a powerup for player, else return fale
-	if (GameInstanceRef->totalTime > 10 && PlayerRef->GlobalTime < 2.f)
+	if (GameInstanceRef->totalTime > 10 && PlayerRef->GlobalTime < 2.f && FMath::RandRange(0, 4) < 1)
 	{
 		SpeedBoostRef = GetWorld()->SpawnActor<ASpeedBoostPowerup>(this->GetActorLocation(), this->GetActorRotation(), SpawnInfo);
 		SpeedBoostRef->AttachToComponent(CarMesh, FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("BirdSocket"));
-		SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
+		// SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
 		return true;
 	}
 		
 	return false;
 
-	// return false;
 }
 
 // Called every frame

@@ -61,6 +61,8 @@ void AGridTemplate::Init()
 
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
+		if (spawnVehicle->SpeedBoostActive) spawnVehicle->SpeedBoostRef->SetActorRotation(FRotator(0, 180, 0));
+		if (spawnVehicle1->SpeedBoostActive) spawnVehicle1->SpeedBoostRef->SetActorRotation(FRotator(0, 0, 0));
 
 	}
 	else {
@@ -70,8 +72,13 @@ void AGridTemplate::Init()
 		Layout.VehicleLocation_0 = FVector(this->GetActorLocation().X + FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y + FMath::RandRange(40.f, 450.f), 0.f);
 		Layout.VehicleLocation_1 = FVector(this->GetActorLocation().X - FMath::RandRange(40.f, 450.f), this->GetActorLocation().Y - FMath::RandRange(40.f, 450.f), 0.f);
 
+
 		spawnVehicle = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_0, Layout.VehicleRotation_0, SpawnInfo));
 		spawnVehicle1 = Cast<AVehicle>(GetWorld()->SpawnActor<AVehicle>(Layout.VehicleLocation_1, Layout.VehicleRotation_1, SpawnInfo));
+		if (spawnVehicle->SpeedBoostActive) spawnVehicle->SpeedBoostRef->SetActorRotation(FRotator(0, -90, 0));
+		if (spawnVehicle1->SpeedBoostActive) spawnVehicle1->SpeedBoostRef->SetActorRotation(FRotator(0, 90, 0));
+
+		
 	}
 }
 
