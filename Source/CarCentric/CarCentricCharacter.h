@@ -55,7 +55,7 @@ public:
 	ACarCentricCharacter();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
-	int32 HP;
+	float HP;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
 	float GlobalTime;
@@ -95,7 +95,7 @@ public:
 	// dependant on Vehicle Type.
 
 	UFUNCTION()
-	void PlayerDamaged(int32 damage);
+	void PlayerDamaged(float damage);
 
 	UFUNCTION()
 	void PlayerHitByVehicle();

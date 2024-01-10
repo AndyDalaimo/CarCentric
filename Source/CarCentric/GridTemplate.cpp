@@ -97,7 +97,7 @@ void AGridTemplate::SpawnPowerup()
 		spawnLargeTimePowerup = Cast<ALargeTimePowerup>(GetWorld()->SpawnActor<ALargeTimePowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		return;
 	case (2) :
-		if (PlayerRef->HP < 40) spawnHealthPowerup = Cast<AHealthPowerup>(GetWorld()->SpawnActor<AHealthPowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
+		if (PlayerRef->HP < 40.f) spawnHealthPowerup = Cast<AHealthPowerup>(GetWorld()->SpawnActor<AHealthPowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		else spawnTimePowerup = Cast<ATimePowerup>(GetWorld()->SpawnActor<ATimePowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		return;
 	}

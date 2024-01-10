@@ -43,7 +43,7 @@ class CARCENTRIC_API AVehicle : public AActor
 		EVehicleType Type;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
-	int32 Damage;
+	float Damage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Vehicle, meta = (AllowPrivateAccess = "true"))
 	float Speed;
@@ -85,8 +85,8 @@ protected:
 
 	// Event Called to subtract HP from player
 	UFUNCTION(BlueprintNativeEvent)
-	void DamagePlayer(int32 damageAmount);
-	void DamagePlayer_Implementation(int32 damageAmount);
+	void DamagePlayer(float damageAmount);
+	void DamagePlayer_Implementation(float damageAmount);
 
 
 	// Set Vehicle Speed depending on vehicle type

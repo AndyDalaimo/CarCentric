@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // ACarCentricCharacter
 
-ACarCentricCharacter::ACarCentricCharacter() : HP(50), currentDirection(0), GlobalTime(1.f), TimeIncrease(.2f)
+ACarCentricCharacter::ACarCentricCharacter() : HP(50.f), currentDirection(0), GlobalTime(1.f), TimeIncrease(.2f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -167,7 +167,7 @@ uint8 ACarCentricCharacter::GetCurrentDirection()
 
 // Damage taken from Vehicle. Amoutn dependant on vehicle type. 
 // If HP <= 0, call Game Over in Game Instance
-void ACarCentricCharacter::PlayerDamaged(int32 damage)
+void ACarCentricCharacter::PlayerDamaged(float damage)
 {
 	HP -= damage;
 

@@ -106,6 +106,7 @@ void AVehicle::MovementTimer(float movementSpeed)
 	// Move Vehicle Along Spline
 	currentLocation = FMath::VInterpConstantTo(currentLocation, goalLocation, GetWorld()->GetTimerManager().GetTimerElapsed(MovementHandler), 200.f);
 	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);
+	if (this->GetActorLocation() == goalLocation) this->Destroy();
 }
 
 // Collision Event when player is hit by Vehicle. 
@@ -130,7 +131,7 @@ void AVehicle::DamagePlayerOnCollision(UPrimitiveComponent* OverlappedComponent,
 
 // Event Called when Player collides with vehicle
 // Called in BP_Vehicle, Subtract damageAmount from Player HP
-void AVehicle::DamagePlayer_Implementation(int32 damageAmount)
+void AVehicle::DamagePlayer_Implementation(float damageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Player took %d Damage"), damageAmount);
 	
