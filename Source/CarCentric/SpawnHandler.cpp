@@ -3,7 +3,7 @@
 #include "SpawnHandler.h"
 
 // Sets default values
-ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0)
+ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), PreviousGridIndex(0)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -23,10 +23,12 @@ void ASpawnHandler::BeginPlay()
 
 	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	SpawnCollider->OnComponentEndOverlap.AddDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
+	SpawnCollider->OnComponentEndOverlap.AddUniqueDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
 
 	// Collider placed in position on Grid template to Begin Play
 	SpawnCollider->SetWorldLocation(FVector(1000.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
+
+	InitializeGridPool();
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -41,44 +43,26 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
 
-		// Will Only be called once. First grid Spawned into Level
-		if (ActiveGrids.Num() == 0)
-		{
-			tempLoc = FVector(1200.0f, 1200.0f, -20.f);
-			NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo));
-			NewGrid->Layout.Direction = EGridDirection::FORWARD;
-			// Initialize new Grid
-			// NewGrid->Init();
-
-			ActiveGrids.Insert(NewGrid, 0);
-
-			// Move Spawn collider to next correct position 
-			SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)NewGrid->Layout.Direction),
-				UpdateSpawnColliderRotation((uint8)NewGrid->Layout.Direction));
-			// return;
-		}
+		// Update Indices of temp and previous Active grids
+		UpdateIndex();
 
 		// Properties of New Grid Spawn Location / Rotation
-		tempLoc = ActiveGrids[0]->GetActorLocation();
+		tempLoc = ActiveGrids[PreviousGridIndex]->GetActorLocation();
 		
-		NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
-
+		// NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
+		ActiveGrids[CurrentGridIndex]->SetActorLocationAndRotation(UpdateGridSpawnLocation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction), Rotation);
+		
 		// Initialize new Grid
-		NewGrid->Init();
+		ActiveGrids[CurrentGridIndex]->Layout.init(PlayerRef->GetCurrentDirection());
+		ActiveGrids[CurrentGridIndex]->Init();
 
 		// Move Spawn collider to next correct position 
-		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[0]->Layout.Direction),
-			UpdateSpawnColliderRotation((uint8)ActiveGrids[0]->Layout.Direction));
-		
-		// Add Newly spawned grid to beginning of vector
-		ActiveGrids.Insert(NewGrid, 0);
+		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction),
+			UpdateSpawnColliderRotation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction));
 
 		// Set Players current direction
-		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[0]->Layout.Direction);
-
-		// Delete useless grid actors
-		DeleteGrid();
-
+		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[CurrentGridIndex]->Layout.Direction);
+		UE_LOG(LogTemp, Warning, TEXT("Current: %d Previous: %d"), CurrentGridIndex, PreviousGridIndex);
 	}
 }
 
@@ -136,6 +120,19 @@ FRotator ASpawnHandler::UpdateSpawnColliderRotation(uint8 direction)
 	return FRotator(0.0, 0.0, 0.0);
 }
 
+// Spawn All poolable grids into scene on Begin Play. Will be updated in spawn handling collision event
+void ASpawnHandler::InitializeGridPool()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
+		else tempLoc = FVector(0.f, 0.f, 0.f);
+		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
+	}
+	ActiveGrids[CurrentGridIndex]->Layout.Direction = EGridDirection::FORWARD;
+	// CurrentGridIndex = 1;
+}
+
 // After more than 4 Grid templates have spawned, delete actor in 0 position.
 void ASpawnHandler::DeleteGrid()
 {
@@ -146,6 +143,19 @@ void ASpawnHandler::DeleteGrid()
 		// Remove Grid Actor from end of Vector (oldest element)
 		GetWorld()->DestroyActor(ActiveGrids.Pop(true));
 	}
+}
+
+// Update ActiveGrid Index
+void ASpawnHandler::UpdateIndex()
+{
+	CurrentGridIndex++;
+	PreviousGridIndex = CurrentGridIndex - 1;
+
+	if (CurrentGridIndex == 4)
+	{
+		CurrentGridIndex = 0;
+	}
+
 }
 
 // Called every frame

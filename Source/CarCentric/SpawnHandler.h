@@ -44,8 +44,10 @@ private:
 
 	FVector tempLoc = FVector(0.0f, 0.0f, 0.0f);
 
-	// Grid template to Spawn
-	AGridTemplate* NewGrid;
+	// Tracked current index of active grid template to move
+	int8 CurrentGridIndex;
+	// Tracked previous index of active grid template to move
+	uint8 PreviousGridIndex;
 
 	// Spawn new Grid Template 
 	UFUNCTION()
@@ -60,9 +62,16 @@ private:
 	UFUNCTION()
 		FRotator UpdateSpawnColliderRotation(uint8 direction);
 
+	// Initialize Pooled Grids to update in level generation
+	UFUNCTION()
+		void InitializeGridPool();
+
 	// Delete oldest grid from World and update array
 	UFUNCTION()
 		void DeleteGrid();
+
+	UFUNCTION()
+		void UpdateIndex();
 
 public:	
 	// Called every frame
