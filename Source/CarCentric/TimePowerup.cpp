@@ -65,7 +65,7 @@ void ATimePowerup::CollectPowerup(UPrimitiveComponent* OverlappedComponent,
 {
 	if ((OtherActor == PlayerRef) && (OtherActor != this) && OtherComp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Large Time Powerup Collected"));
+		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Large Time Powerup Collected"));
 		GameInstanceRef->TimePowerupCollect(timeIncrease);
 		// UpdateGameInstanceTimer();
 		Destroy();

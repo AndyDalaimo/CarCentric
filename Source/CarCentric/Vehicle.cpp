@@ -25,13 +25,13 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	SetRootComponent(CarMesh);
 	// CarMesh->SetSkeletalMesh(SmallCar);
 	CarMesh->SetRelativeScale3D(FVector(.8f, .8f, .8f));
-	CarMesh->SetGenerateOverlapEvents(false);
+	CarMesh->SetGenerateOverlapEvents(true);
+
 
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	BoxCollider->SetBoxExtent(FVector(160, 90, 150), true);
-	BoxCollider->SetHiddenInGame(false);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AVehicle::DamagePlayerOnCollision);
 
 	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
@@ -39,7 +39,6 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	VehiclePath->SetRelativeRotation(FRotator(0, -90, 0));
 	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 1200, 0), ESplineCoordinateSpace::Local, true);
 	VehiclePath->Mobility = EComponentMobility::Movable;
-	VehiclePath->SetVisibility(true);
 
 }
 

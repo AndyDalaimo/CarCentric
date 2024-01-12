@@ -133,18 +133,6 @@ void ASpawnHandler::InitializeGridPool()
 	// CurrentGridIndex = 1;
 }
 
-// After more than 4 Grid templates have spawned, delete actor in 0 position.
-void ASpawnHandler::DeleteGrid()
-{
-	UE_LOG(LogTemp, Warning, TEXT("%d Grid Tiles in Scene"), ActiveGrids.Num());
-
-	if (ActiveGrids.Num() > 3)
-	{
-		// Remove Grid Actor from end of Vector (oldest element)
-		GetWorld()->DestroyActor(ActiveGrids.Pop(true));
-	}
-}
-
 // Update ActiveGrid Index
 void ASpawnHandler::UpdateIndex()
 {
@@ -155,7 +143,19 @@ void ASpawnHandler::UpdateIndex()
 	{
 		CurrentGridIndex = 0;
 	}
+}
 
+// NOT IN USE AFTER SETTING THE GRIDS IN OBJECT POOL
+// After more than 4 Grid templates have spawned, delete actor in 0 position.
+void ASpawnHandler::DeleteGrid()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%d Grid Tiles in Scene"), ActiveGrids.Num());
+
+	if (ActiveGrids.Num() > 3)
+	{
+		// Remove Grid Actor from end of Vector (oldest element)
+		GetWorld()->DestroyActor(ActiveGrids.Pop(true));
+	}
 }
 
 // Called every frame
