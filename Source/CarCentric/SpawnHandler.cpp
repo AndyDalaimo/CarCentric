@@ -14,6 +14,24 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
 	SpawnCollider->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
 	SpawnCollider->SetVisibility(true);
 
+	SmokeWall_0 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 1"));
+	SmokeWall_0->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
+	SmokeWall_0->SetRelativeRotation(FRotator(0, 0, 0));
+	SmokeWall_0->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->Mobility = EComponentMobility::Movable;
+	SmokeWall_0->SetHiddenInGame(false);
+
+	SmokeWall_1 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 2"));
+	SmokeWall_1->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
+	SmokeWall_1->SetRelativeRotation(FRotator(0, 90, 0));
+	SmokeWall_1->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->Mobility = EComponentMobility::Movable;
+	SmokeWall_1->SetHiddenInGame(false);
+
 }
 
 // Called when the game starts or when spawned
@@ -59,6 +77,9 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		// Move Spawn collider to next correct position 
 		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction),
 			UpdateSpawnColliderRotation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction));
+
+		// ------------------ TODO --------------
+		// Update location of both Fog Walls
 
 		// Set Players current direction
 		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[CurrentGridIndex]->Layout.Direction);

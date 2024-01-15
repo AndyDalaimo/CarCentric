@@ -1,13 +1,12 @@
-
-
-#include "Components/BoxComponent.h"
-#include "Components/BoxComponent.h"// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "CarCentricCharacter.h"
+#include "Components/SplineComponent.h"
+#include "Components/BoxComponent.h"
 #include "GridTemplate.h"
 #include "Components/BoxComponent.h"
 #include "SpawnHandler.generated.h"
@@ -20,6 +19,12 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 	// Box Collision at top of grid
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = SpawnCollider, meta = (AllowPrivateAccess = "true"))
 		class UBoxComponent* SpawnCollider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+		class USplineComponent* SmokeWall_0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+		class USplineComponent* SmokeWall_1;
 
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
