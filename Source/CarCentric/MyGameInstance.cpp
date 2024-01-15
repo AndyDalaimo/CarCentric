@@ -67,7 +67,7 @@ void UMyGameInstance::TimerFunction()
 	FString timeString = timer.ToString();
 
 	// TESTING -- Shows game timer on output log (Is displayed on UI)
-	// UE_LOG(LogTemp, Warning, TEXT("Timer elapsed %s"), *timeString);
+	// UE_LOG(LogTemp, Warning, TEXT("Timer Rate %f"), timerRate);
 	// UE_LOG(LogTemp, Warning, TEXT("Time Left: %d"), totalTime);
 
 	if (totalTime <= 0)
@@ -81,6 +81,14 @@ void UMyGameInstance::TimerFunction()
 		// Game over. Pause timer and remove input from player (Except Mouse/UI Input)
 		ExitHUDUIWidget();
 	}
+}
+
+// New tiemr rate is set in Player on pickup of speed boost
+void UMyGameInstance::SetTimerRate(float rate)
+{
+	timerRate = rate;
+	GetTimerManager().ClearTimer(GameTimer);
+	GetWorld()->GetTimerManager().SetTimer(GameTimer, TimerDelegate, timerRate, true);
 }
 
 // Function Called from BP_TimePowerup. Before destroying actor, totalTime 

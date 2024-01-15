@@ -42,7 +42,7 @@ private:
 	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
 
-	FVector tempLoc = FVector(0.0f, 0.0f, 0.0f);
+	FVector tempLoc = FVector(-1000.0f, -1000.0f, 0.0f);
 
 	// Tracked current index of active grid template to move
 	int8 CurrentGridIndex;

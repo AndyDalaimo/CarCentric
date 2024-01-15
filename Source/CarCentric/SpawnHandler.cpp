@@ -26,7 +26,7 @@ void ASpawnHandler::BeginPlay()
 	SpawnCollider->OnComponentEndOverlap.AddUniqueDynamic(this, &ASpawnHandler::SpawnGridOnCollision);
 
 	// Collider placed in position on Grid template to Begin Play
-	SpawnCollider->SetWorldLocation(FVector(1000.f, tempLoc.Y + 1000.f, tempLoc.Z + 50.f));
+	SpawnCollider->SetWorldLocation(FVector(1000.f, 1000.f, tempLoc.Z + 50.f));
 
 	InitializeGridPool();
 }
@@ -41,7 +41,7 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 {
 	if ((OtherActor == PlayerRef) && OtherComp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Spawn new Grid Template"));
+		UE_LOG(LogTemp, Warning, TEXT("Current Grid Direction: %d"), (uint8)ActiveGrids[CurrentGridIndex]->Layout.Direction);
 
 		// Update Indices of temp and previous Active grids
 		UpdateIndex();
@@ -126,7 +126,7 @@ void ASpawnHandler::InitializeGridPool()
 	for (int i = 0; i < 4; i++)
 	{
 		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
-		else tempLoc = FVector(0.f, 0.f, 0.f);
+		else tempLoc = FVector(-1000.f, -1000.f, 0.f);
 		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
 	}
 	ActiveGrids[CurrentGridIndex]->Layout.Direction = EGridDirection::FORWARD;

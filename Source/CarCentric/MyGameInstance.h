@@ -43,6 +43,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void TimePowerupCollect(int32 increase);
 
+	UFUNCTION()
+	void SetTimerRate(float rate);
+
 	// In Game Timer shown on HUD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 totalTime;
@@ -50,12 +53,14 @@ public:
 	UPROPERTY()
 	int32 seconds = 0;
 
+	UPROPERTY()
+	float timerRate = 1.f;
+
 private:
 
 	// Properties for in game timer
 	FTimerHandle GameTimer;
 	FTimerDelegate TimerDelegate;
-	float timerRate = 1.f;
 
 	// HUD with Game Timer
 	TSubclassOf<UUserWidget> HUDUIWidgetClass;
@@ -66,6 +71,7 @@ private:
 	// In Game timer started on Start Game 
 	UFUNCTION()
 	void TimerFunction();
+
 
 
 

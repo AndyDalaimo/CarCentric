@@ -185,6 +185,7 @@ void ACarCentricCharacter::PlayerHitByVehicle()
 	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
 	GlobalTime = 1.0f;
+	GameInstanceRef->SetTimerRate(GlobalTime);
 }
 
 // Health pickups in world will heal player 
@@ -200,7 +201,10 @@ void ACarCentricCharacter::SpeedBoost()
 	GlobalTime = UGameplayStatics::GetGlobalTimeDilation(GetWorld());
 
 	if (GlobalTime < 2.f)
+	{
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), GlobalTime += TimeIncrease);
+		GameInstanceRef->SetTimerRate(GlobalTime);
+	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::SanitizeFloat(GlobalTime));
 	
