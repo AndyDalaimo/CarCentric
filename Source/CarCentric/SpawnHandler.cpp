@@ -8,6 +8,14 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> SmokeParticleSystem(TEXT("/Game/StarterContent/Particles/P_Steam_Lit"));
+	SmokeParticle = SmokeParticleSystem.Object;
+
+	if (SmokeParticleSystem.Succeeded())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Found Particle System");
+	}
+
 	SpawnCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("North_BoxCollider"));
 	SpawnCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SpawnCollider->SetRelativeScale3D(FVector(0.5f, 30.f, 10.f));
@@ -16,7 +24,7 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
 
 	SmokeWall_0 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 1"));
 	SmokeWall_0->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
-	SmokeWall_0->SetRelativeRotation(FRotator(0, 0, 0));
+	SmokeWall_0->SetRelativeLocationAndRotation(FVector(0, 22, 0), FRotator(0, 90, 0));
 	SmokeWall_0->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_0->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_0->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
@@ -25,7 +33,7 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
 
 	SmokeWall_1 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 2"));
 	SmokeWall_1->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
-	SmokeWall_1->SetRelativeRotation(FRotator(0, 90, 0));
+	SmokeWall_1->SetRelativeLocationAndRotation(FVector(0, -22, 0), FRotator(0, 90, 0));
 	SmokeWall_1->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_1->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_1->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
@@ -45,6 +53,7 @@ void ASpawnHandler::BeginPlay()
 
 	// Collider placed in position on Grid template to Begin Play
 	SpawnCollider->SetWorldLocation(FVector(1000.f, 1000.f, tempLoc.Z + 50.f));
+
 
 	InitializeGridPool();
 }
@@ -119,10 +128,10 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 			return FVector(loc.X + 900.f, tempLoc.Y, this->GetActorLocation().Z);
 		case 1 : 
 			// return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
-			return FVector(loc.X + 250.f, tempLoc.Y + 700.f, this->GetActorLocation().Z);
+			return FVector(loc.X, tempLoc.Y + 700.f, this->GetActorLocation().Z);
 		case 2 :
 			// return FVector(loc.X + 750.f, tempLoc.Y, this->GetActorLocation().Z);
-			return FVector(loc.X + 250.f, tempLoc.Y - 700.f, this->GetActorLocation().Z);
+			return FVector(loc.X, tempLoc.Y - 700.f, this->GetActorLocation().Z);
 	}
 
 	return FVector(loc.X + 1500.f, this->GetActorLocation().Y, this->GetActorLocation().Z);
@@ -149,9 +158,16 @@ void ASpawnHandler::InitializeGridPool()
 		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
 		else tempLoc = FVector(-1000.f, -1000.f, 0.f);
 		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
+
+		// Set up Particle Emitters
+		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_0, SmokeWall_0->GetFName(),
+			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, -10), FVector(3, 5, 3),
+			EAttachLocation::SnapToTarget, false);
+		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_1, SmokeWall_1->GetFName(),
+			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, -10), FVector(3, 5, 3),
+			EAttachLocation::SnapToTarget, false);
 	}
 	ActiveGrids[CurrentGridIndex]->Layout.Direction = EGridDirection::FORWARD;
-	// CurrentGridIndex = 1;
 }
 
 // Update ActiveGrid Index

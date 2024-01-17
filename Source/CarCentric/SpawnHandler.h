@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "CarCentricCharacter.h"
+#include "UObject/ConstructorHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "ParticleDefinitions.h"
 #include "Components/SplineComponent.h"
 #include "Components/BoxComponent.h"
 #include "GridTemplate.h"
@@ -43,6 +46,10 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	// Reference to Smoke Particle system
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Particle, meta = (AllowPrivateAccess = "true"))
+	UParticleSystem* SmokeParticle;
 
 	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
