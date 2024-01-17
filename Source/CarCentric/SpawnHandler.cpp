@@ -9,11 +9,11 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> SmokeParticleSystem(TEXT("/Game/StarterContent/Particles/P_Steam_Lit"));
-	SmokeParticle = SmokeParticleSystem.Object;
 
 	if (SmokeParticleSystem.Succeeded())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Found Particle System");
+		SmokeParticle = SmokeParticleSystem.Object;
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Found Particle System"));
 	}
 
 	SpawnCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("North_BoxCollider"));
@@ -25,21 +25,34 @@ ASpawnHandler::ASpawnHandler() : Rotation(0.0, 0.0, 0.0), CurrentGridIndex(0), P
 	SmokeWall_0 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 1"));
 	SmokeWall_0->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
 	SmokeWall_0->SetRelativeLocationAndRotation(FVector(0, 22, 0), FRotator(0, 90, 0));
-	SmokeWall_0->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
-	SmokeWall_0->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->SetLocationAtSplinePoint(1, FVector(0, 15, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->AddSplinePoint(FVector(0, 30, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->AddSplinePoint(FVector(0, 45, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_0->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_0->AddSplinePoint(FVector(0, 75, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_0->Mobility = EComponentMobility::Movable;
-	SmokeWall_0->SetHiddenInGame(false);
+
 
 	SmokeWall_1 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 2"));
 	SmokeWall_1->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
 	SmokeWall_1->SetRelativeLocationAndRotation(FVector(0, -22, 0), FRotator(0, 90, 0));
-	SmokeWall_1->SetLocationAtSplinePoint(1, FVector(0, 20, 0), ESplineCoordinateSpace::Local, true);
-	SmokeWall_1->AddSplinePoint(FVector(0, 40, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->SetLocationAtSplinePoint(1, FVector(0, 15, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->AddSplinePoint(FVector(0, 30, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->AddSplinePoint(FVector(0, 45, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_1->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_1->AddSplinePoint(FVector(0, 75, 0), ESplineCoordinateSpace::Local, true);
 	SmokeWall_1->Mobility = EComponentMobility::Movable;
-	SmokeWall_1->SetHiddenInGame(false);
 
+	
+	SmokeWall_2 = CreateDefaultSubobject<USplineComponent>(TEXT("Smoke Wall 3"));
+	SmokeWall_2->AttachToComponent(SpawnCollider, FAttachmentTransformRules::KeepRelativeTransform);
+	SmokeWall_2->SetRelativeLocationAndRotation(FVector(-3500, -37, 0), FRotator(0, 0, 0));
+	SmokeWall_2->SetLocationAtSplinePoint(1, FVector(0, 15, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_2->AddSplinePoint(FVector(0, 30, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_2->AddSplinePoint(FVector(0, 45, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_2->AddSplinePoint(FVector(0, 60, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_2->AddSplinePoint(FVector(0, 75, 0), ESplineCoordinateSpace::Local, true);
+	SmokeWall_2->Mobility = EComponentMobility::Movable;
 }
 
 // Called when the game starts or when spawned
@@ -53,7 +66,6 @@ void ASpawnHandler::BeginPlay()
 
 	// Collider placed in position on Grid template to Begin Play
 	SpawnCollider->SetWorldLocation(FVector(1000.f, 1000.f, tempLoc.Z + 50.f));
-
 
 	InitializeGridPool();
 }
@@ -153,18 +165,21 @@ FRotator ASpawnHandler::UpdateSpawnColliderRotation(uint8 direction)
 // Spawn All poolable grids into scene on Begin Play. Will be updated in spawn handling collision event
 void ASpawnHandler::InitializeGridPool()
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
 		else tempLoc = FVector(-1000.f, -1000.f, 0.f);
-		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
+		if (i < 4) ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
 
 		// Set up Particle Emitters
 		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_0, SmokeWall_0->GetFName(),
-			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, -10), FVector(3, 5, 3),
+			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, 0), FVector(2.5, 5, 2),
 			EAttachLocation::SnapToTarget, false);
 		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_1, SmokeWall_1->GetFName(),
-			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, -10), FVector(3, 5, 3),
+			FVector(SmokeWall_1->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, 0), FVector(2.5, 5, 2),
+			EAttachLocation::SnapToTarget, false);
+		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_2, SmokeWall_2->GetFName(),
+			FVector(SmokeWall_2->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, 0), FVector(2.5, 5, 2),
 			EAttachLocation::SnapToTarget, false);
 	}
 	ActiveGrids[CurrentGridIndex]->Layout.Direction = EGridDirection::FORWARD;

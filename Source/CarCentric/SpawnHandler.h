@@ -28,9 +28,13 @@ class CARCENTRIC_API ASpawnHandler : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
 		class USplineComponent* SmokeWall_1;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = VehiclePath, meta = (AllowPrivateAccess = "true"))
+		class USplineComponent* SmokeWall_2;
 
 	UPROPERTY()
 		TArray<AGridTemplate*> ActiveGrids;
+
 
 	// Grid Spawn Properties 
 	FRotator Rotation;
@@ -53,6 +57,7 @@ private:
 
 	// Reference to Player
 	ACarCentricCharacter* PlayerRef;
+
 
 	FVector tempLoc = FVector(-1000.0f, -1000.0f, 0.0f);
 
