@@ -37,7 +37,7 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	VehiclePath = CreateDefaultSubobject<USplineComponent>(TEXT("VehiclePath"));
 	VehiclePath->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
 	VehiclePath->SetRelativeRotation(FRotator(0, -90, 0));
-	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 1200, 0), ESplineCoordinateSpace::Local, true);
+	VehiclePath->SetLocationAtSplinePoint(1, FVector(0, 2000, 0), ESplineCoordinateSpace::Local, true);
 	VehiclePath->Mobility = EComponentMobility::Movable;
 
 }
@@ -77,7 +77,7 @@ void AVehicle::BeginPlay()
 
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 	// Life span of Actor Currently Set
-	this->SetLifeSpan(7.f);
+	this->SetLifeSpan(15.f);
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 
 	// Set Speed for Vehicle Movement
@@ -94,7 +94,7 @@ void AVehicle::BeginPlay()
 
 	// Start Movement timer
 	MovementDelegate.BindUFunction(this, "MovementTimer");
-	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true, FMath::RandRange(0.1f, 1.5f));
+	GetWorld()->GetTimerManager().SetTimer(MovementHandler, MovementDelegate, Speed, true, FMath::RandRange(2.f, 4.5f));
 
 }
 

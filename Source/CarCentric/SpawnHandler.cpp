@@ -95,17 +95,46 @@ void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AA
 		ActiveGrids[CurrentGridIndex]->Layout.init(PlayerRef->GetCurrentDirection());
 		ActiveGrids[CurrentGridIndex]->Init();
 
+		ActiveGrids[CurrentGridIndex]->SetActorLocationAndRotation(UpdateGridSpawnLocation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction), Rotation);
+
 		// Move Spawn collider to next correct position 
 		SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction),
 			UpdateSpawnColliderRotation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction));
 
-		// ------------------ TODO --------------
-		// Update location of both Fog Walls
+		// Update text in Blueprint
+		UpdateText();
+
+		// Set Players current direction
+		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[CurrentGridIndex]->Layout.Direction);// Update Indices of temp and previous Active grids
+
+		UpdateIndex();
+
+		// Properties of New Grid Spawn Location / Rotation
+		tempLoc = ActiveGrids[PreviousGridIndex]->GetActorLocation();
+		
+		// NewGrid = Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(UpdateGridSpawnLocation((uint8)ActiveGrids[0]->Layout.Direction), Rotation, SpawnInfo));
+		ActiveGrids[CurrentGridIndex]->SetActorLocationAndRotation(UpdateGridSpawnLocation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction), Rotation);
+		
+		// Initialize new Grid
+		ActiveGrids[CurrentGridIndex]->Layout.init(PlayerRef->GetCurrentDirection());
+		ActiveGrids[CurrentGridIndex]->Init();
+
+		ActiveGrids[CurrentGridIndex]->SetActorLocationAndRotation(UpdateGridSpawnLocation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction), Rotation);
+
+		// Move Spawn collider to next correct position 
+		// SpawnCollider->SetWorldLocationAndRotation(UpdateSpawnColliderLocation(tempLoc, (uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction),
+		// 	UpdateSpawnColliderRotation((uint8)ActiveGrids[PreviousGridIndex]->Layout.Direction));
 
 		// Set Players current direction
 		PlayerRef->SetCurrentDirection((uint8)ActiveGrids[CurrentGridIndex]->Layout.Direction);
 		UE_LOG(LogTemp, Warning, TEXT("Current: %d Previous: %d"), CurrentGridIndex, PreviousGridIndex);
 	}
+}
+
+// Change text on road sign
+void ASpawnHandler::UpdateText_Implementation()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Change Text"));
 }
 
 // Update Direction from tempLoc. This temporary value will be updated every time a new GridTemplate
@@ -137,7 +166,7 @@ FVector ASpawnHandler::UpdateSpawnColliderLocation(FVector loc, uint8 direction)
 	{
 		case 0 :
 			// return FVector(loc.X + 1500.f, tempLoc.Y + 750.f, this->GetActorLocation().Z);
-			return FVector(loc.X + 900.f, tempLoc.Y, this->GetActorLocation().Z);
+			return FVector(loc.X + 720.f, tempLoc.Y, this->GetActorLocation().Z);
 		case 1 : 
 			// return FVector(loc.X + 750.f, tempLoc.Y + 1500.f, this->GetActorLocation().Z);
 			return FVector(loc.X, tempLoc.Y + 700.f, this->GetActorLocation().Z);
@@ -156,8 +185,10 @@ FRotator ASpawnHandler::UpdateSpawnColliderRotation(uint8 direction)
 	{
 	case 0  : 
 		return FRotator(0.0, 0.0, 0.0);
-	default : 
+	case 1  : 
 		return FRotator(0.0, 90.0, 0.0);
+	case 2  :
+		return FRotator(0.0, -90.0, 0.0);
 	}
 	return FRotator(0.0, 0.0, 0.0);
 }
@@ -165,14 +196,15 @@ FRotator ASpawnHandler::UpdateSpawnColliderRotation(uint8 direction)
 // Spawn All poolable grids into scene on Begin Play. Will be updated in spawn handling collision event
 void ASpawnHandler::InitializeGridPool()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
 		else tempLoc = FVector(-1000.f, -1000.f, 0.f);
-		if (i < 4) ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
+		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
 
 		// Set up Particle Emitters
-		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_0, SmokeWall_0->GetFName(),
+		// if (i < 4) 
+		/*UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_0, SmokeWall_0->GetFName(),
 			FVector(SmokeWall_0->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, 0), FVector(2.5, 5, 2),
 			EAttachLocation::SnapToTarget, false);
 		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_1, SmokeWall_1->GetFName(),
@@ -180,7 +212,7 @@ void ASpawnHandler::InitializeGridPool()
 			EAttachLocation::SnapToTarget, false);
 		UGameplayStatics::SpawnEmitterAttached(SmokeParticle, SmokeWall_2, SmokeWall_2->GetFName(),
 			FVector(SmokeWall_2->GetLocationAtSplinePoint(i, ESplineCoordinateSpace::Local)), FRotator(0, 0, 0), FVector(2.5, 5, 2),
-			EAttachLocation::SnapToTarget, false);
+			EAttachLocation::SnapToTarget, false);*/
 	}
 	ActiveGrids[CurrentGridIndex]->Layout.Direction = EGridDirection::FORWARD;
 }
@@ -191,7 +223,7 @@ void ASpawnHandler::UpdateIndex()
 	CurrentGridIndex++;
 	PreviousGridIndex = CurrentGridIndex - 1;
 
-	if (CurrentGridIndex == 4)
+	if (CurrentGridIndex == 8)
 	{
 		CurrentGridIndex = 0;
 	}

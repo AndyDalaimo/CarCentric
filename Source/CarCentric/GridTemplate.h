@@ -15,6 +15,7 @@
 #include "HealthPowerup.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SplineComponent.h"
+#include "Components/BoxComponent.h"
 #include "GridTemplate.generated.h"
 
 
@@ -78,6 +79,9 @@ class CARCENTRIC_API AGridTemplate : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GridMesh;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Grid, meta = (AllowPrivateAccess = "true"))
+		class UBoxComponent* FallCollider;
 
 	UPROPERTY()
 	AVehicle* spawnVehicle;
@@ -120,6 +124,10 @@ public:
 	// Choose a powerup to spawn onto the grid
 	UFUNCTION()
 	void SpawnPowerup();
+
+	// Spawn new Grid Template 
+	UFUNCTION()
+		void KillPlayerOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = GridProperties, meta = (AllowPrivateAccess = "true"))
 	FGridLayout Layout;

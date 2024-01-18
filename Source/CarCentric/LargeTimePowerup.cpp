@@ -33,7 +33,7 @@ void ALargeTimePowerup::BeginPlay()
 	Super::BeginPlay();
 
 	// Life Span of Actor in World
-	this->SetLifeSpan(7.f);
+	this->SetLifeSpan(10.f);
 
 	// Set reference to Player
 	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());

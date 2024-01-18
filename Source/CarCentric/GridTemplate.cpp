@@ -20,6 +20,12 @@ AGridTemplate::AGridTemplate()
 	// GridMesh->AddLocalOffset(FVector(500.f, 500.f, 0.f));
 	GridMesh->SetWorldScale3D(FVector3d(1.2f, 1.2f,.5f));
 
+	FallCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Fall Collider"));
+	FallCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	FallCollider->SetRelativeScale3D(FVector(35.f, 35.f, 2.f));
+	FallCollider->AddLocalOffset(FVector(0, 0,-500));
+	FallCollider->SetVisibility(true);
+
 }
 
 /*AGridTemplate::~AGridTemplate()
@@ -38,6 +44,8 @@ void AGridTemplate::BeginPlay()
 
 	// Set Reference to Player
 	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	FallCollider->OnComponentEndOverlap.AddUniqueDynamic(this, &AGridTemplate::KillPlayerOnCollision);
 
 	// initialize new Grid Layout
 	Layout.init(PlayerRef->GetCurrentDirection());
@@ -101,6 +109,16 @@ void AGridTemplate::SpawnPowerup()
 		else spawnTimePowerup = Cast<ATimePowerup>(GetWorld()->SpawnActor<ATimePowerup>(Layout.PowerupPlacement, FRotator(0, 0, 0), SpawnInfo));
 		return;
 	}
+}
+
+// Game Over if Player falls off of map
+void AGridTemplate::KillPlayerOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if ((OtherActor == PlayerRef) && OtherComp) {
+		PlayerRef->GameInstanceRef->ShowGameOverUIWidget();
+		PlayerRef->Destroy();
+	}
+		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("PLayer Falling"));
 }
 
 

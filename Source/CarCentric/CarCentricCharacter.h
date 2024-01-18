@@ -51,6 +51,7 @@ class ACarCentricCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Powerup, meta = (AllowPrivateACcess = "true"))
 		float TimeIncrease;
 
+
 public:
 	ACarCentricCharacter();
 
@@ -59,6 +60,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = HP, meta = (AllowPrivateAccess = "true"))
 	float GlobalTime;
+	
+	// Reference to Game Instance
+	UPROPERTY()
+	UMyGameInstance* GameInstanceRef;
 
 protected:
 
@@ -78,8 +83,6 @@ protected:
 
 private: 
 	
-	// Reference to Game Instance
-	UMyGameInstance* GameInstanceRef;
 
 public:
 	/** Returns CameraBoom subobject **/

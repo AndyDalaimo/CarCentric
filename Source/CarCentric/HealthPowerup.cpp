@@ -33,7 +33,7 @@ void AHealthPowerup::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	this->SetLifeSpan(4.f);
+	this->SetLifeSpan(10.f);
 
 	// Set reference to Player
 	PlayerRef = Cast<ACarCentricCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());

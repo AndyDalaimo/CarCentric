@@ -52,6 +52,7 @@ ACarCentricCharacter::ACarCentricCharacter() : HP(50.f), currentDirection(0), Gl
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
+
 void ACarCentricCharacter::BeginPlay()
 {
 	// Call the base class  
@@ -69,8 +70,6 @@ void ACarCentricCharacter::BeginPlay()
 		}
 	}
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////
 // Input

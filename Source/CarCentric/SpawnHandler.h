@@ -44,6 +44,10 @@ public:
 	// Sets default values for this actor's properties
 	ASpawnHandler();
 
+	// To be implemented in blueprint
+	UFUNCTION(BlueprintNativeEvent)
+		void UpdateText();
+
 
 protected:
 	// Called when the game starts or when spawned
