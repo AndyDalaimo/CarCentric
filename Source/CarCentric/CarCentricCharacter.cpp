@@ -89,9 +89,6 @@ void ACarCentricCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 		//Looking
 		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ACarCentricCharacter::Look);
 
-		// Timer -- DEBUG: Only used for TESTING. Will end game when timer is at zero and playe presses Timer Action
-		// EnhancedInputComponent->BindAction(TimerAction, ETriggerEvent::Started, this, &ACarCentricCharacter::TimerEnd);
-
 	}
 
 }
@@ -115,15 +112,6 @@ void ACarCentricCharacter::Move(const FInputActionValue& Value)
 		// get right vector 
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-		// add movement 
-		/*if (MovementVector.X == 0)
-		{
-			AddMovementInput(ForwardDirection, MovementVector.Y);
-		}
-		else if (MovementVector.Y == 0)
-		{
-			AddMovementInput(RightDirection, MovementVector.X);
-		}*/
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
@@ -178,7 +166,7 @@ void ACarCentricCharacter::PlayerHitByVehicle()
 {
 	if (GetCharacterMovement()->IsMovingOnGround())
 		GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -7000, true);
-	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -1000, true);
+	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -1800, true);
 	
 	// currentSpeed = baseSpeed;
 	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;

@@ -26,7 +26,7 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	// CarMesh->SetSkeletalMesh(SmallCar);
 	CarMesh->SetRelativeScale3D(FVector(.8f, .8f, .8f));
 	CarMesh->SetGenerateOverlapEvents(true);
-	CarMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+	CarMesh->SetCollisionProfileName(TEXT("IgnoreOnlyPawn"));
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
@@ -60,8 +60,23 @@ void AVehicle::BeginPlay()
 	// Set Reference to Player
 	PlayerRef = StaticCast<ACarCentricCharacter*>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
+	switch (Type) {
+		case (EVehicleType::DEFAULT) :
+			CarMesh->SetSkeletalMesh(SmallCar);
+			SpeedBoostActive = CreateSpeedBoost();
+			break;
+		case (EVehicleType::COMPACT) :
+			CarMesh->SetSkeletalMesh(MediumCar);
+			break;
+		case (EVehicleType::TRUCK) :
+			CarMesh->SetSkeletalMesh(LargeCar);
+			BoxCollider->SetBoxExtent(FVector(200, 90, 300), true);
+			break;
+		default :
+			break;
+	}
 
-	if (Type == EVehicleType::DEFAULT)
+	/*if (Type == EVehicleType::DEFAULT)
 	{
 		CarMesh->SetSkeletalMesh(SmallCar);
 		SpeedBoostActive = CreateSpeedBoost();
@@ -72,7 +87,7 @@ void AVehicle::BeginPlay()
 		CarMesh->SetSkeletalMesh(LargeCar);
 		BoxCollider->SetBoxExtent(FVector(200, 90, 300), true);
 
-	}
+	}*/
 
 	// -------------------------DEBUG DEBUG DEBUG-------------------------
 	// Life span of Actor Currently Set
