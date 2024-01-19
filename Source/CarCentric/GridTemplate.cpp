@@ -86,7 +86,6 @@ void AGridTemplate::Init()
 		if (spawnVehicle->SpeedBoostActive) spawnVehicle->SpeedBoostRef->SetActorRotation(FRotator(0, -90, 0));
 		if (spawnVehicle1->SpeedBoostActive) spawnVehicle1->SpeedBoostRef->SetActorRotation(FRotator(0, 90, 0));
 
-		
 	}
 }
 
@@ -118,7 +117,7 @@ void AGridTemplate::KillPlayerOnCollision(UPrimitiveComponent* OverlappedComp, A
 		PlayerRef->GameInstanceRef->ShowGameOverUIWidget();
 		PlayerRef->Destroy();
 	}
-		// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("PLayer Falling"));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("PLayer Falling"));
 }
 
 
@@ -126,7 +125,6 @@ void AGridTemplate::KillPlayerOnCollision(UPrimitiveComponent* OverlappedComp, A
 void AGridTemplate::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 

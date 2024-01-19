@@ -26,8 +26,7 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	// CarMesh->SetSkeletalMesh(SmallCar);
 	CarMesh->SetRelativeScale3D(FVector(.8f, .8f, .8f));
 	CarMesh->SetGenerateOverlapEvents(true);
-
-
+	CarMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
@@ -160,9 +159,9 @@ float AVehicle::SetSpeed(EVehicleType type)
 	switch (type)
 	{
 		case EVehicleType::DEFAULT :
-			return .08f;
+			return .03f;
 		case EVehicleType::COMPACT :
-			return .05f;
+			return .02f;
 		case EVehicleType::TRUCK : 
 			return .015f;
 		default :

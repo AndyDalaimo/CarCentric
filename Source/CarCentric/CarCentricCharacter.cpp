@@ -177,8 +177,8 @@ void ACarCentricCharacter::PlayerDamaged(float damage)
 void ACarCentricCharacter::PlayerHitByVehicle()
 {
 	if (GetCharacterMovement()->IsMovingOnGround())
-		GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -10000, true);
-	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -2500, true);
+		GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -7000, true);
+	else GetCharacterMovement()->AddImpulse(GetActorForwardVector() * -1000, true);
 	
 	// currentSpeed = baseSpeed;
 	// GetCharacterMovement()->MaxWalkSpeed = currentSpeed;
