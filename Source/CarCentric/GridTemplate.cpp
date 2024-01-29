@@ -22,7 +22,7 @@ AGridTemplate::AGridTemplate()
 
 	FallCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("Fall Collider"));
 	FallCollider->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	FallCollider->SetRelativeScale3D(FVector(35.f, 35.f, 2.f));
+	FallCollider->SetRelativeScale3D(FVector(50.f, 50.f, 2.f));
 	FallCollider->AddLocalOffset(FVector(0, 0,-500));
 	FallCollider->SetVisibility(true);
 

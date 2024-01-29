@@ -82,7 +82,6 @@ protected:
 	virtual void BeginPlay();
 
 private: 
-	
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -113,6 +112,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SpeedBoost();
+
+	UFUNCTION(BlueprintNativeEvent)
+		void ScreenShake();
+	// On impact with certain objects, screen shake to indicate the player has taken damage
+	void ScreenShake_Implementation() { }
 
 };
 

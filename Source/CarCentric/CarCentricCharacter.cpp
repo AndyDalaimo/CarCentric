@@ -158,6 +158,8 @@ void ACarCentricCharacter::PlayerDamaged(float damage)
 {
 	HP -= damage;
 
+	ScreenShake();
+
 	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
 }
 
