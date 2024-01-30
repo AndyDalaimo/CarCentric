@@ -82,6 +82,9 @@ protected:
 	virtual void BeginPlay();
 
 private: 
+	// Death Screen Timer
+	FTimerHandle Timer;
+	FTimerDelegate TimerDelegate;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -100,6 +103,9 @@ public:
 	void PlayerDamaged(float damage);
 
 	UFUNCTION()
+	void PlayerDead();
+
+	UFUNCTION()
 	void PlayerHitByVehicle();
 
 	// Update Player properties depending on type of powerup collected in world
@@ -113,9 +119,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpeedBoost();
 
+	// On impact with certain objects, screen shake to indicate the player has taken damage
 	UFUNCTION(BlueprintNativeEvent)
 		void ScreenShake();
-	// On impact with certain objects, screen shake to indicate the player has taken damage
 	void ScreenShake_Implementation() { }
 
 };

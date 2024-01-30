@@ -26,7 +26,7 @@ AVehicle::AVehicle() : Damage(5), MovementTime(1.f), SpeedBoostActive(false)
 	// CarMesh->SetSkeletalMesh(SmallCar);
 	CarMesh->SetRelativeScale3D(FVector(.8f, .8f, .8f));
 	CarMesh->SetGenerateOverlapEvents(true);
-	CarMesh->SetCollisionProfileName(TEXT("IgnoreOnlyPawn"));
+	CarMesh->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(CarMesh, FAttachmentTransformRules::KeepRelativeTransform);
@@ -118,7 +118,7 @@ void AVehicle::MovementTimer(float movementSpeed)
 {
 	// Move Vehicle Along Spline
 	currentLocation = FMath::VInterpConstantTo(currentLocation, goalLocation, GetWorld()->GetTimerManager().GetTimerElapsed(MovementHandler), 200.f);
-	if(this->IsValidLowLevel()) this->SetActorLocation(currentLocation);
+	if (this->IsValidLowLevel()) this->SetActorLocation(currentLocation);
 	if (this->GetActorLocation() == goalLocation) this->Destroy();
 }
 

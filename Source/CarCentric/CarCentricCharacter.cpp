@@ -58,6 +58,9 @@ void ACarCentricCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	// Binding function for timer to play out on Player Death
+	TimerDelegate.BindUFunction(this, "PlayerDead");
+
 	// Set reference to Game Instance
 	GameInstanceRef = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 
@@ -156,11 +159,30 @@ uint8 ACarCentricCharacter::GetCurrentDirection()
 // If HP <= 0, call Game Over in Game Instance
 void ACarCentricCharacter::PlayerDamaged(float damage)
 {
-	HP -= damage;
+	if (HP - damage <= 0) HP = 0;
+	else HP -= damage;
 
+	// Call Screen shake event in player Blueprint
 	ScreenShake();
 
-	if (HP <= 0) GameInstanceRef->ShowGameOverUIWidget();
+	// On Player Death
+	if (HP <= 0)
+	{
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), .8f);
+		GetWorld()->GetTimerManager().SetTimer(Timer, TimerDelegate, 0.05f, true);
+	}
+}
+
+// Timer Bound function when HP reaches zero.
+// Camera to zoom in on Player Death -> For epic dramatic effect. 
+void ACarCentricCharacter::PlayerDead()
+{
+	CameraBoom->TargetArmLength -= 10.f;
+	if (CameraBoom->TargetArmLength == 500.f)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(Timer);
+		GameInstanceRef->ShowGameOverUIWidget();
+	}
 }
 
 // Add Small impulse to player when hit by a vehicle. Reset currentSpeed to baseSpeed
