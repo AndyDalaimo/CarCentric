@@ -168,6 +168,7 @@ void ACarCentricCharacter::PlayerDamaged(float damage)
 	// On Player Death
 	if (HP <= 0)
 	{
+		GameInstanceRef->ShowGameOverUIWidget();
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), .8f);
 		GetWorld()->GetTimerManager().SetTimer(Timer, TimerDelegate, 0.05f, true);
 	}
@@ -181,7 +182,7 @@ void ACarCentricCharacter::PlayerDead()
 	if (CameraBoom->TargetArmLength == 500.f)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
-		GameInstanceRef->ShowGameOverUIWidget();
+		// GameInstanceRef->ShowGameOverUIWidget();
 	}
 }
 

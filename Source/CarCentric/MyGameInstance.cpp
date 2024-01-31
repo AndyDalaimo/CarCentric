@@ -120,9 +120,10 @@ void UMyGameInstance::ExitHUDUIWidget()
 
 	// Set Up Input Parameters
 	FInputModeUIOnly InputModeData;
+	
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 
-	// Set Input Mode
+	// Set Input Modes
 	PlayerController->SetInputMode(InputModeData);
 	PlayerController->bShowMouseCursor = true;
 
