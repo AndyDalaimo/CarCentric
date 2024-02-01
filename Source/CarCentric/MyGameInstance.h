@@ -21,7 +21,8 @@ public:
 	~UMyGameInstance() override;
 	
 	// Check if References are valid
-	virtual void Init();
+	UFUNCTION(BlueprintCallable)
+	void Initialize();
 
 	// Create Widget and Show Game Timer
 	UFUNCTION(BlueprintCallable)

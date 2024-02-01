@@ -198,7 +198,7 @@ void ASpawnHandler::InitializeGridPool()
 {
 	for (int i = 0; i < 8; i++)
 	{
-		if (i == 0) tempLoc = FVector(1200.0f, 1200.0f, -20.f);
+		if (i == 0) tempLoc = FVector(2150.0f, 1000.0f, -20.f);
 		else tempLoc = FVector(-1000.f, -1000.f, 0.f);
 		ActiveGrids.Push(Cast<AGridTemplate>(GetWorld()->SpawnActor<AGridTemplate>(tempLoc, Rotation, SpawnInfo)));
 

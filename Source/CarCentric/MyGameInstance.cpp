@@ -36,7 +36,7 @@ UMyGameInstance::~UMyGameInstance()
 
 // Initialize Timer
 // Set default values for totalTime as well as validating widgets in game
-void UMyGameInstance::Init()
+void UMyGameInstance::Initialize()
 {
 
 	UE_LOG(LogTemp, Warning, TEXT("Widget Class Found: %s"), *HUDUIWidgetClass->GetName());
@@ -104,7 +104,6 @@ void UMyGameInstance::ShowHUDUIWidget()
 	UUserWidget* HUDUI = CreateWidget<UUserWidget>(this, *HUDUIWidgetClass);
 	HUDUI->AddToViewport();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, HUDUI ? HUDUI->GetName() : "Not valid");
-	
 }
 
 
@@ -161,7 +160,7 @@ void UMyGameInstance::RestartGame()
 	PlayerController->bShowMouseCursor = false;
 
 	// Restart Game Timer
-	Init();
+	Initialize();
 }
 
 
