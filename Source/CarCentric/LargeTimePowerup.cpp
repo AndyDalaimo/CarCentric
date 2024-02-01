@@ -16,6 +16,7 @@ ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
 	PowerupMesh->SetupAttachment(RootComponent);
 	PowerupMesh->SetStaticMesh(Cube);
 	PowerupMesh->SetWorldScale3D(FVector3d(.75f, .75f, .5f));
+	PowerupMesh->SetCollisionProfileName(TEXT("IgnoreAll"));
 	PowerupMesh->bApplyImpulseOnDamage = false;
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
