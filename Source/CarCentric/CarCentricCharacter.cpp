@@ -178,7 +178,7 @@ void ACarCentricCharacter::PlayerDamaged(float damage)
 // Camera to zoom in on Player Death -> For epic dramatic effect. 
 void ACarCentricCharacter::PlayerDead()
 {
-	CameraBoom->TargetArmLength -= 10.f;
+	CameraBoom->TargetArmLength -= 5.f;
 	if (CameraBoom->TargetArmLength == 500.f)
 	{
 		GetWorld()->GetTimerManager().ClearTimer(Timer);
@@ -216,6 +216,8 @@ void ACarCentricCharacter::SpeedBoost()
 	{
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), GlobalTime += TimeIncrease);
 		GameInstanceRef->SetTimerRate(GlobalTime);
+		// Play UI Animation in Player blueprint
+		UISpeedIndication();
 	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::SanitizeFloat(GlobalTime));

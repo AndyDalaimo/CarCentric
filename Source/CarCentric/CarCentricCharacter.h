@@ -124,5 +124,9 @@ public:
 		void ScreenShake();
 	void ScreenShake_Implementation() { }
 
+	UFUNCTION(BlueprintNativeEvent)
+		void UISpeedIndication();
+	void UISpeedIndication_Implementation() { };
+
 };
 
