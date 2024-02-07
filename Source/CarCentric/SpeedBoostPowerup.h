@@ -25,6 +25,9 @@ class CARCENTRIC_API ASpeedBoostPowerup : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	UParticleSystem* ParticleEffect;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Audio, meta = (AllowPrivateAccess = "true"))
+	USoundBase* AudioComp;
+
 public:	
 	// Sets default values for this actor's properties
 	ASpeedBoostPowerup();

@@ -17,6 +17,9 @@ ASpeedBoostPowerup::ASpeedBoostPowerup()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem>ParticleFinder(TEXT("/Game/StarterContent/Particles/P_Explosion.P_Explosion"));
 	ParticleEffect = ParticleFinder.Object;
 
+	static ConstructorHelpers::FObjectFinder<USoundBase>AudioFinder(TEXT("/Game/Audio/Seagull.Seagull"));
+	AudioComp = AudioFinder.Object;
+
 	PowerupMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Bird"));
 	SetRootComponent(PowerupMesh);
 	PowerupMesh->SetSkeletalMesh(Bird);
@@ -55,6 +58,7 @@ void ASpeedBoostPowerup::PowerupPlayerOnCollision(UPrimitiveComponent* Overlappe
 		PlayerRef->SpeedBoost();
 		PowerupMesh->SetHiddenInGame(true);
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleEffect, this->GetActorTransform());
+		UGameplayStatics::PlaySound2D(GetWorld(), AudioComp);
 	}
 }
 
