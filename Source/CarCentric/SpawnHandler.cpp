@@ -39,10 +39,11 @@ void ASpawnHandler::BeginPlay()
 	InitializeGridPool();
 }
 
+
 // ---------------------------------------------------------------------------------------------------------------
 // -------------------------------------- Grid Spawning / Generation ---------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
-// Spawn a new Grid template when plaeyr passes spawn collider. Move Collider to Further position on Grid
+// Spawn a new Grid template when player passes spawn collider. Move Collider to Further position on Grid
 // tempLoc will take previous Grid Template and add the size of grid to vector to place new Grid in line
 // Collider will move in position onto new Grid Template
 void ASpawnHandler::SpawnGridOnCollision(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

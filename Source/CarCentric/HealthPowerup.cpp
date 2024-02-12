@@ -9,20 +9,21 @@ AHealthPowerup::AHealthPowerup() : HP(5)
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/StarterContent/Shapes/Shape_Cone.Shape_Cone"));
-	UStaticMesh* Cone = MeshAsset.Object;
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/Assets/Heart.Heart"));
+	UStaticMesh* Heart = MeshAsset.Object;
 
 	HeartMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HeartMesh"));
 	SetRootComponent(HeartMesh);
-	HeartMesh->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
-	HeartMesh->SetStaticMesh(Cone);
+	HeartMesh->SetRelativeScale3D(FVector(40.f, 40.f, 40.f));
+	HeartMesh->SetRelativeRotation(FRotator(0, 0, 90));
+	HeartMesh->SetStaticMesh(Heart);
 	HeartMesh->bApplyImpulseOnDamage = false;
 	// HeartMesh->SetGenerateOverlapEvents(true);
 	// HeartMesh->SetCollisionProfileName(TEXT("OverlapOnlyPawn"));
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(HeartMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
+	BoxCollider->SetBoxExtent(FVector(1.5f, 1.5f, 1.5f), true);
 	BoxCollider->bApplyImpulseOnDamage = false;
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AHealthPowerup::CollectHealthPowerup);
 

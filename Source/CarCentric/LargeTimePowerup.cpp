@@ -9,20 +9,21 @@ ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/LevelPrototyping/Meshes/SM_ChamferCube.SM_ChamferCube"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>MeshAsset(TEXT("/Game/Assets/DoctorsNote.DoctorsNote"));
 	UStaticMesh* Cube = MeshAsset.Object;
 
 	PowerupMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ClockMesh"));
 	PowerupMesh->SetupAttachment(RootComponent);
 	PowerupMesh->SetStaticMesh(Cube);
-	PowerupMesh->SetWorldScale3D(FVector3d(.75f, .75f, .5f));
+	PowerupMesh->SetRelativeScale3D(FVector3d(40.f, 40.f, 40.f));
+	PowerupMesh->SetRelativeRotation(FRotator(0, 90, 90));
 	PowerupMesh->SetCollisionProfileName(TEXT("IgnoreAll"));
 	PowerupMesh->bApplyImpulseOnDamage = false;
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(PowerupMesh, FAttachmentTransformRules::KeepRelativeTransform);
-	BoxCollider->SetBoxExtent(FVector(60, 60, 60), true);
-	// BoxCollider->AddRelativeLocation(FVector(50, 50, 40));
+	BoxCollider->SetBoxExtent(FVector(1.5, 1.5, 1.5), true);
+	BoxCollider->AddRelativeLocation(FVector(0, -2, 0));
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ALargeTimePowerup::CollectPowerup);
 	BoxCollider->bApplyImpulseOnDamage = false;
 
