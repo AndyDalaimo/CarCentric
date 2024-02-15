@@ -7,6 +7,7 @@
 #include "CarCentricCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/RotatingMovementComponent.h"
 #include "HealthPowerup.generated.h"
 
 UCLASS()
@@ -19,6 +20,9 @@ class CARCENTRIC_API AHealthPowerup : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collison, meta = (AllowPrivateAccess = "true"))
 		UBoxComponent* BoxCollider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+		class URotatingMovementComponent* RotateComp;
 
 	
 public:	

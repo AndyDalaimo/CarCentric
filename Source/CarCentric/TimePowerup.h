@@ -7,6 +7,7 @@
 #include "CarCentricCharacter.h"
 #include "MyGameInstance.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/RotatingMovementComponent.h"
 #include "TimePowerup.generated.h"
 
 
@@ -20,6 +21,9 @@ class CARCENTRIC_API ATimePowerup : public AActor
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collision, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxCollider;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	class URotatingMovementComponent* RotateComp;
 	
 public:	
 	// Sets default values for this actor's properties

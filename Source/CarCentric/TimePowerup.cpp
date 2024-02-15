@@ -27,6 +27,10 @@ ATimePowerup::ATimePowerup() : timeIncrease(3)
 	BoxCollider->AddRelativeLocation(FVector(0, -2, 0));
 	BoxCollider->bApplyImpulseOnDamage = false;
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ATimePowerup::CollectPowerup);
+
+	RotateComp = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotateComponent"));
+	RotateComp->bRotationInLocalSpace = 0;
+
 }
 
 // Called when the game starts or when spawned

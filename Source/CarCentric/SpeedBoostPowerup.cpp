@@ -27,6 +27,7 @@ ASpeedBoostPowerup::ASpeedBoostPowerup()
 
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollider"));
 	BoxCollider->AttachToComponent(PowerupMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	BoxCollider->SetBoxExtent(FVector(100.0f, 110.0f, 75.0f), true);
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ASpeedBoostPowerup::PowerupPlayerOnCollision);
 
 }

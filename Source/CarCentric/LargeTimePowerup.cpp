@@ -27,6 +27,9 @@ ALargeTimePowerup::ALargeTimePowerup() : timeIncrease(5), damage(5)
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ALargeTimePowerup::CollectPowerup);
 	BoxCollider->bApplyImpulseOnDamage = false;
 
+	RotateComp = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotateComponent"));
+	RotateComp->bRotationInLocalSpace = 0;
+
 }
 
 // Called when the game starts or when spawned

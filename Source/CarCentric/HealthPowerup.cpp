@@ -27,6 +27,9 @@ AHealthPowerup::AHealthPowerup() : HP(5)
 	BoxCollider->bApplyImpulseOnDamage = false;
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AHealthPowerup::CollectHealthPowerup);
 
+	RotateComp = CreateDefaultSubobject<URotatingMovementComponent>(TEXT("RotateComponent"));
+	RotateComp->bRotationInLocalSpace = 0;
+
 }
 
 // Called when the game starts or when spawned
